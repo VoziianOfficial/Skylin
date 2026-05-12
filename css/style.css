@@ -2396,10 +2396,7 @@ p {
     }
 }
 
-/* ==========================================================
-   Tablet hero mini map photos fix
-   Make hero-mini-map photos visible on tablets
-   ========================================================== */
+
 
 @media (min-width: 641px) and (max-width: 1180px) {
     .hero-mini-map {
