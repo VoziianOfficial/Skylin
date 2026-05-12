@@ -667,3 +667,70 @@
         padding-block: 72px;
     }
 }
+
+/* ==========================================================
+   Tablet service intro — center copy block evenly
+   ========================================================== */
+
+@media (min-width: 641px) and (max-width: 1180px) {
+    .service-detail-intro-layout {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .service-detail-intro-copy {
+        width: min(100%, 760px);
+        margin-inline: auto;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .service-detail-intro-copy h2,
+    .service-detail-intro-copy p {
+        max-width: 720px;
+        margin-inline: auto;
+        text-align: center;
+    }
+
+    .service-detail-intro-actions {
+        justify-content: center;
+    }
+
+    .service-detail-visual {
+        width: min(100%, 820px);
+        margin-inline: auto;
+    }
+}
+
+/* ==========================================================
+   Mobile service hero list alignment
+   Align text evenly next to square markers
+   ========================================================== */
+
+@media (max-width: 640px) {
+    .service-detail-hero-list {
+        width: 100%;
+        gap: 10px;
+    }
+
+    .service-detail-hero-list span {
+        display: grid;
+        grid-template-columns: 14px minmax(0, 1fr);
+        align-items: start;
+        gap: 10px;
+        text-align: left;
+        width: 100%;
+        font-size: 0.84rem;
+        line-height: 1.4;
+    }
+
+    .service-detail-hero-list span::before {
+        width: 9px;
+        height: 9px;
+        margin-top: 5px;
+        flex: none;
+        justify-self: center;
+    }
+}
