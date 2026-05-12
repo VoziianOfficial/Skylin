@@ -108,8 +108,8 @@ window.SITE_CONFIG = {
             shortTitle: "Installation",
             href: "window-installation.html",
             icon: "window",
-            image: "./assets/images/service-installation.jpg",
-            heroImage: "./assets/images/hero-service-installation.jpg",
+            image: "../assets/images/service-installation.jpg",
+            heroImage: "../assets/images/hero-service-installation.jpg",
             kicker: "New Window Projects",
             summary:
                 "Explore local provider options for new window installation requests, project details, and quote conversations.",
@@ -132,12 +132,12 @@ window.SITE_CONFIG = {
         },
         {
             id: "window-replacement",
-            title: "Window Replacement",
+            title: "Replacement",
             shortTitle: "Replacement",
             href: "window-replacement.html",
             icon: "replace",
-            image: "./assets/images/service-replacement.jpg",
-            heroImage: "./assets/images/hero-service-replacement.jpg",
+            image: "../assets/images/service-replacement.jpg",
+            heroImage: "../assets/images/hero-service-replacement.jpg",
             kicker: "Replacement Planning",
             summary:
                 "Compare local provider options for replacing outdated, damaged, drafty, or inefficient windows.",
@@ -164,8 +164,8 @@ window.SITE_CONFIG = {
             shortTitle: "Repair",
             href: "window-repair.html",
             icon: "repair",
-            image: "./assets/images/service-repair.jpg",
-            heroImage: "./assets/images/hero-service-repair.jpg",
+            image: "../assets/images/service-repair.jpg",
+            heroImage: "../assets/images/hero-service-repair.jpg",
             kicker: "Repair Requests",
             summary:
                 "Explore provider options for window repair requests involving glass, frames, seals, hardware, or operation issues.",
@@ -188,12 +188,12 @@ window.SITE_CONFIG = {
         },
         {
             id: "energy-efficient-windows",
-            title: "Energy-Efficient Windows",
+            title: "Energy-Efficient",
             shortTitle: "Energy Windows",
             href: "energy-efficient-windows.html",
             icon: "energy",
-            image: "./assets/images/service-energy.jpg",
-            heroImage: "./assets/images/hero-service-energy.jpg",
+            image: "../assets/images/service-energy.jpg",
+            heroImage: "../assets/images/hero-service-energy.jpg",
             kicker: "Efficiency Options",
             summary:
                 "Compare provider options for energy-efficient window upgrades, glass packages, and comfort-focused improvements.",
