@@ -1,0 +1,669 @@
+/* ==========================================================
+   Skylin — Individual Service Page Styles
+   Shared styles for:
+   - window-installation.html
+   - window-replacement.html
+   - window-repair.html
+   - energy-efficient-windows.html
+   ========================================================== */
+
+.service-detail-page {
+    background: var(--color-bg-deep);
+}
+
+/* ==========================================================
+   Service Hero
+   ========================================================== */
+
+.service-detail-hero {
+    position: relative;
+    min-height: 82svh;
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+    padding-top: var(--header-height);
+    background: var(--color-bg-deep);
+}
+
+.service-detail-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(7, 9, 11, 0.94), rgba(7, 9, 11, 0.52) 48%, rgba(7, 9, 11, 0.84)),
+        linear-gradient(180deg, rgba(7, 9, 11, 0.08), rgba(7, 9, 11, 0.92)),
+        var(--service-hero-image, url("../assets/images/hero-services.jpg"));
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.02);
+}
+
+.service-detail-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 80% 18%, rgba(0, 194, 255, 0.18), transparent 24rem),
+        linear-gradient(rgba(0, 194, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 194, 255, 0.07) 1px, transparent 1px);
+    background-size: auto, 104px 104px, 104px 104px;
+    opacity: 0.58;
+    mask-image: linear-gradient(90deg, #000 0%, #000 64%, transparent 94%);
+}
+
+.service-detail-hero-inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.48fr);
+    gap: clamp(28px, 6vw, 96px);
+    align-items: end;
+    padding-block: clamp(118px, 15vw, 210px) clamp(60px, 8vw, 104px);
+}
+
+.service-detail-hero-copy {
+    display: grid;
+    gap: 24px;
+    max-width: 920px;
+}
+
+.service-detail-hero-copy h1 span {
+    color: var(--color-accent);
+    text-shadow: 0 0 42px rgba(0, 194, 255, 0.24);
+}
+
+.service-detail-hero-copy p {
+    max-width: 650px;
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+}
+
+.service-detail-hero-panel {
+    position: relative;
+    display: grid;
+    gap: 22px;
+    padding: clamp(22px, 3vw, 34px);
+    border: 1px solid var(--color-border-dark);
+    background: rgba(7, 9, 11, 0.62);
+    box-shadow: var(--shadow-deep);
+    backdrop-filter: blur(22px);
+}
+
+.service-detail-hero-panel::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 26px;
+    width: 86px;
+    height: 1px;
+    background: var(--color-accent);
+    box-shadow: var(--shadow-accent);
+}
+
+.service-detail-hero-panel h2 {
+    font-size: clamp(1.65rem, 3vw, 3rem);
+}
+
+.service-detail-hero-panel p {
+    font-size: 0.92rem;
+}
+
+.service-detail-hero-list {
+    display: grid;
+    gap: 12px;
+}
+
+.service-detail-hero-list span {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--color-text-soft);
+    font-size: 0.9rem;
+    font-weight: 750;
+}
+
+.service-detail-hero-list span::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--color-accent);
+    background: rgba(0, 194, 255, 0.12);
+    box-shadow: var(--shadow-accent);
+}
+
+/* ==========================================================
+   Service Intro / Photo Overlap
+   ========================================================== */
+
+.service-detail-intro {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 88% 0%, rgba(0, 194, 255, 0.12), transparent 24rem),
+        linear-gradient(135deg, var(--color-bg-deep), var(--color-teal-deep) 76%);
+}
+
+.service-detail-intro-layout {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+    gap: clamp(28px, 6vw, 96px);
+    align-items: center;
+}
+
+.service-detail-intro-copy {
+    display: grid;
+    gap: 22px;
+}
+
+.service-detail-intro-copy h2 {
+    max-width: 660px;
+}
+
+.service-detail-intro-copy p {
+    max-width: 580px;
+}
+
+.service-detail-intro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.service-detail-visual {
+    position: relative;
+    min-height: clamp(520px, 52vw, 720px);
+}
+
+.service-detail-photo-main {
+    position: absolute;
+    inset: 0 0 82px 14%;
+    border: 1px solid var(--color-border-accent);
+    background:
+        linear-gradient(180deg, rgba(7, 9, 11, 0.04), rgba(7, 9, 11, 0.42)),
+        var(--service-main-image, url("../assets/images/interior-window-02.jpg"));
+    background-size: cover;
+    background-position: center;
+    box-shadow: var(--shadow-deep);
+}
+
+.service-detail-photo-small {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: min(46%, 360px);
+    min-height: 260px;
+    border: 1px solid var(--color-white);
+    background:
+        linear-gradient(180deg, rgba(7, 9, 11, 0.08), rgba(7, 9, 11, 0.54)),
+        url("../assets/images/window-frame-detail.jpg");
+    background-size: cover;
+    background-position: center;
+    box-shadow: var(--shadow-deep);
+}
+
+.service-detail-photo-note {
+    position: absolute;
+    right: 0;
+    bottom: 40px;
+    width: min(46%, 360px);
+    display: grid;
+    gap: 14px;
+    padding: clamp(20px, 3vw, 30px);
+    border: 1px solid var(--color-border-dark);
+    background: rgba(7, 9, 11, 0.72);
+    box-shadow: var(--shadow-deep);
+    backdrop-filter: blur(18px);
+}
+
+.service-detail-photo-note strong {
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.4vw, 2.35rem);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+}
+
+.service-detail-photo-note p {
+    font-size: 0.86rem;
+}
+
+.service-detail-photo-frame {
+    position: absolute;
+    top: 54px;
+    left: 6%;
+    right: -22px;
+    bottom: 24px;
+    border: 1px solid rgba(0, 194, 255, 0.32);
+    pointer-events: none;
+}
+
+.service-detail-photo-frame::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 14%;
+    width: 120px;
+    height: 1px;
+    background: var(--color-accent);
+    box-shadow: var(--shadow-accent);
+}
+
+/* ==========================================================
+   Evaluation / Deep Teal Section
+   ========================================================== */
+
+.service-detail-evaluation {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(7, 9, 11, 0.94), rgba(7, 9, 11, 0.62)),
+        url("../assets/images/glass-detail.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.service-detail-evaluation::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(120deg, rgba(8, 43, 39, 0.9) 0%, rgba(8, 43, 39, 0.62) 44%, transparent 44%),
+        radial-gradient(circle at 86% 12%, rgba(0, 194, 255, 0.13), transparent 22rem);
+}
+
+.service-detail-evaluation-layout {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: clamp(34px, 5vw, 70px);
+}
+
+.service-detail-evaluation-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--color-border-dark);
+    border-left: 1px solid var(--color-border-dark);
+}
+
+.service-detail-evaluation-card {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 18px;
+    min-height: 260px;
+    padding: clamp(22px, 3vw, 34px);
+    border-right: 1px solid var(--color-border-dark);
+    border-bottom: 1px solid var(--color-border-dark);
+    background: rgba(7, 9, 11, 0.58);
+    backdrop-filter: blur(18px);
+    transition:
+        transform var(--transition-base),
+        background var(--transition-base),
+        border-color var(--transition-base);
+}
+
+.service-detail-evaluation-card::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 22px;
+    width: 64px;
+    height: 1px;
+    background: var(--color-accent);
+    opacity: 0;
+    box-shadow: var(--shadow-accent);
+    transition: opacity var(--transition-base);
+}
+
+.service-detail-evaluation-card:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 194, 255, 0.08);
+    border-color: rgba(0, 194, 255, 0.34);
+}
+
+.service-detail-evaluation-card:hover::before {
+    opacity: 1;
+}
+
+.service-detail-evaluation-index {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: clamp(1.85rem, 3.5vw, 3.35rem);
+    line-height: 0.9;
+    font-weight: 700;
+    letter-spacing: -0.06em;
+}
+
+.service-detail-evaluation-card h3 {
+    font-size: clamp(1.15rem, 1.9vw, 1.65rem);
+}
+
+.service-detail-evaluation-card p {
+    font-size: 0.88rem;
+}
+
+/* ==========================================================
+   Light Editorial Insert
+   ========================================================== */
+
+.service-detail-editorial {
+    background: var(--color-smoke);
+    color: var(--color-text-dark);
+}
+
+.service-detail-editorial p {
+    color: var(--color-text-gray);
+}
+
+.service-detail-editorial-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.62fr);
+    gap: clamp(28px, 6vw, 92px);
+    align-items: center;
+}
+
+.service-detail-editorial-image {
+    position: relative;
+    min-height: 580px;
+    border: 1px solid rgba(17, 20, 23, 0.14);
+    background:
+        linear-gradient(180deg, rgba(17, 20, 23, 0.02), rgba(17, 20, 23, 0.22)),
+        var(--service-editorial-image, url("../assets/images/interior-window-03.jpg"));
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 34px 80px rgba(17, 20, 23, 0.12);
+}
+
+.service-detail-editorial-image::before {
+    content: "";
+    position: absolute;
+    inset: 28px;
+    border: 1px solid rgba(0, 157, 255, 0.48);
+}
+
+.service-detail-editorial-image::after {
+    content: "Provider matching clarity";
+    position: absolute;
+    left: 28px;
+    bottom: 28px;
+    max-width: 230px;
+    padding: 14px 16px;
+    background: rgba(241, 243, 244, 0.88);
+    color: var(--color-text-dark);
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.service-detail-editorial-copy {
+    display: grid;
+    gap: 22px;
+}
+
+.service-detail-editorial-copy .section-kicker {
+    color: var(--color-accent-deep);
+}
+
+.service-detail-editorial-copy .section-kicker::before {
+    background: var(--color-accent-deep);
+}
+
+.service-detail-editorial-copy h2 {
+    max-width: 560px;
+}
+
+.service-detail-editorial-checklist {
+    display: grid;
+    gap: 10px;
+    margin: 8px 0 0;
+    padding: 0;
+}
+
+.service-detail-editorial-checklist li {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    color: var(--color-text-gray);
+    list-style: none;
+}
+
+.service-detail-editorial-checklist li::before {
+    content: "✓";
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    background: var(--color-accent-strong);
+    color: var(--color-white);
+    font-size: 0.76rem;
+    font-weight: 900;
+}
+
+/* ==========================================================
+   Related Services / Photo Cards
+   ========================================================== */
+
+.service-detail-related {
+    background:
+        radial-gradient(circle at 88% 8%, rgba(0, 194, 255, 0.13), transparent 26rem),
+        linear-gradient(180deg, var(--color-bg-deep), var(--color-bg-graphite));
+}
+
+.service-detail-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.service-detail-related .service-card {
+    min-height: 320px;
+}
+
+/* ==========================================================
+   CTA / Form Section
+   ========================================================== */
+
+.service-detail-cta {
+    position: relative;
+    overflow: hidden;
+    min-height: 660px;
+    display: grid;
+    align-items: center;
+    background:
+        linear-gradient(90deg, rgba(7, 9, 11, 0.94), rgba(7, 9, 11, 0.58) 48%, rgba(7, 9, 11, 0.82)),
+        url("../assets/images/cta-window-night.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.service-detail-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(120deg, rgba(8, 43, 39, 0.76) 0%, rgba(8, 43, 39, 0.42) 40%, transparent 40%),
+        radial-gradient(circle at 88% 20%, rgba(0, 194, 255, 0.14), transparent 20rem),
+        linear-gradient(rgba(0, 194, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 194, 255, 0.055) 1px, transparent 1px);
+    background-size: auto, auto, 86px 86px, 86px 86px;
+}
+
+.service-detail-cta-layout {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.7fr) minmax(360px, 0.62fr);
+    gap: clamp(28px, 6vw, 92px);
+    align-items: center;
+    padding-block: clamp(82px, 11vw, 138px);
+}
+
+.service-detail-cta-copy {
+    display: grid;
+    gap: 24px;
+    max-width: 660px;
+}
+
+.service-detail-cta-copy h2 {
+    max-width: 660px;
+}
+
+.service-detail-cta-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.service-detail-cta-list span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-soft);
+    font-size: 0.92rem;
+    font-weight: 760;
+}
+
+.service-detail-cta-list span::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--color-accent);
+    background: rgba(0, 194, 255, 0.12);
+    box-shadow: var(--shadow-accent);
+}
+
+/* ==========================================================
+   Service FAQ
+   ========================================================== */
+
+.service-detail-faq {
+    background:
+        radial-gradient(circle at 92% 0%, rgba(0, 194, 255, 0.12), transparent 24rem),
+        linear-gradient(180deg, var(--color-bg-graphite), var(--color-bg-deep));
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+@media (max-width: 1180px) {
+
+    .service-detail-hero-inner,
+    .service-detail-intro-layout,
+    .service-detail-editorial-layout,
+    .service-detail-cta-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .service-detail-evaluation-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .service-detail-related-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .service-detail-hero {
+        min-height: auto;
+    }
+
+    .service-detail-hero-inner {
+        padding-block: 130px 72px;
+    }
+
+    .service-detail-photo-main {
+        inset: 0 0 92px 0;
+    }
+
+    .service-detail-photo-small {
+        width: 54%;
+    }
+
+    .service-detail-photo-note {
+        right: 0;
+        width: 52%;
+    }
+
+    .service-detail-editorial-image {
+        min-height: 440px;
+    }
+
+    .service-detail-cta {
+        min-height: auto;
+    }
+
+    .service-detail-cta-layout {
+        padding-block: 78px;
+    }
+}
+
+@media (max-width: 640px) {
+    .service-detail-hero-inner {
+        padding-block: 112px 58px;
+    }
+
+    .service-detail-hero-copy {
+        gap: 20px;
+    }
+
+    .service-detail-hero-panel,
+    .service-detail-evaluation-card {
+        padding: 20px;
+    }
+
+    .service-detail-visual {
+        min-height: 520px;
+    }
+
+    .service-detail-photo-small {
+        width: 60%;
+        min-height: 210px;
+    }
+
+    .service-detail-photo-note {
+        width: 76%;
+        right: 0;
+        bottom: 26px;
+        padding: 18px;
+    }
+
+    .service-detail-photo-frame {
+        display: none;
+    }
+
+    .service-detail-evaluation-grid,
+    .service-detail-related-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-detail-evaluation-card {
+        min-height: auto;
+    }
+
+    .service-detail-editorial-image {
+        min-height: 360px;
+    }
+
+    .service-detail-editorial-image::before {
+        inset: 18px;
+    }
+
+    .service-detail-editorial-image::after {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        max-width: none;
+    }
+
+    .service-detail-cta-layout {
+        padding-block: 72px;
+    }
+}

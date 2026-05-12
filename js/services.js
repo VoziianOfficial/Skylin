@@ -2,10 +2,10 @@
 
 /* ==========================================================
    Skylin — Services Page Script
-   Renders:
-   - hero service select
-   - comparison factors
-   - animated stats
+   Renders services page dynamic sections:
+   - portfolio mosaic
+   - window-frame feature grid
+   - comparison lens cards
    ========================================================== */
 
 (function () {
@@ -19,146 +19,177 @@
     document.addEventListener("DOMContentLoaded", initServicesPage);
 
     function initServicesPage() {
-        renderServiceSelects();
-        renderServicesComparison();
-        renderServicesStats();
+        renderServicesMosaic();
+        renderWindowFrameGrid();
+        renderServicesLens();
     }
 
-    function renderServiceSelects() {
-        const selects = Array.from(document.querySelectorAll("[data-service-select]"));
+    /* ========================================================
+       Portfolio Mosaic
+       ======================================================== */
 
-        if (!selects.length || !Array.isArray(config.services)) return;
+    function renderServicesMosaic() {
+        const mount = document.querySelector("[data-services-mosaic]");
+        if (!mount || !Array.isArray(config.services)) return;
 
-        selects.forEach((select) => {
-            const currentFirstOption = select.querySelector("option[value='']");
-            const placeholder = currentFirstOption
-                ? currentFirstOption.outerHTML
-                : `<option value="">Select a category</option>`;
+        mount.innerHTML = config.services
+            .map((service, index) => {
+                return `
+          <a class="services-mosaic-card" href="${escapeAttr(service.href)}" style="--service-image: url('${escapeAttr(service.image)}');">
+            <span class="services-mosaic-top">
+              <span class="icon-box" aria-hidden="true">${serviceIcon(service.icon)}</span>
+              <span class="services-mosaic-index">${String(index + 1).padStart(2, "0")}</span>
+            </span>
 
-            select.innerHTML =
-                placeholder +
-                config.services
-                    .map((service) => {
-                        return `
-                            <option value="${escapeHtml(service.id)}">
-                                ${escapeHtml(service.title)}
-                            </option>
-                        `;
-                    })
-                    .join("");
-        });
+            <span class="services-mosaic-content">
+              <span class="photo-card-kicker">${escapeHtml(service.kicker || "Window Option")}</span>
+              <h3>${escapeHtml(service.title)}</h3>
+              <p>${escapeHtml(service.summary || service.cardText || "")}</p>
+              <span class="text-link">Explore category</span>
+            </span>
+          </a>
+        `;
+            })
+            .join("");
     }
 
-    function renderServicesComparison() {
-        const mount = document.querySelector("[data-services-comparison]");
+    /* ========================================================
+       Window Frame Grid
+       ======================================================== */
 
+    function renderWindowFrameGrid() {
+        const mount = document.querySelector("[data-window-frame-grid]");
+        if (!mount || !Array.isArray(config.services)) return;
+
+        const classMap = {
+            "window-installation": "install large",
+            "window-replacement": "replace",
+            "window-repair": "repair",
+            "energy-efficient-windows": "energy wide"
+        };
+
+        mount.innerHTML = config.services
+            .map((service, index) => {
+                return `
+          <a class="window-frame-cell photo ${escapeAttr(classMap[service.id] || "")}" href="${escapeAttr(service.href)}">
+            <span class="window-frame-cell-number">${String(index + 1).padStart(2, "0")}</span>
+            <span class="icon-box" aria-hidden="true">${serviceIcon(service.icon)}</span>
+
+            <h3>${escapeHtml(service.shortTitle || service.title)}</h3>
+            <p>${escapeHtml(service.cardText || service.summary || "")}</p>
+            <span class="text-link">View details</span>
+          </a>
+        `;
+            })
+            .join("");
+    }
+
+    /* ========================================================
+       Comparison Lens
+       ======================================================== */
+
+    function renderServicesLens() {
+        const mount = document.querySelector("[data-services-lens]");
         if (!mount || !Array.isArray(config.comparisonFactors)) return;
 
-        const icons = [
-            "window",
-            "shield",
-            "materials",
-            "pricing",
-            "calendar",
-            "warranty"
-        ];
-
         mount.innerHTML = config.comparisonFactors
-            .map((item, index) => {
+            .slice(0, 6)
+            .map((factor) => {
                 return `
-                    <article class="comparison-item">
-                        <span class="comparison-item-icon" aria-hidden="true">
-                            ${getServicesIcon(icons[index] || "window")}
-                        </span>
-
-                        <h3>${escapeHtml(item.title)}</h3>
-                        <p>${escapeHtml(item.text)}</p>
-                    </article>
-                `;
+          <article class="services-lens-card">
+            <span class="icon-box" aria-hidden="true">${factorIcon(factor.icon)}</span>
+            <h3>${escapeHtml(factor.label)}</h3>
+            <p>${escapeHtml(factor.text)}</p>
+          </article>
+        `;
             })
             .join("");
     }
 
-    function renderServicesStats() {
-        const mount = document.querySelector("[data-services-stats]");
+    /* ========================================================
+       Icons
+       ======================================================== */
 
-        if (!mount || !Array.isArray(config.stats)) return;
+    function serviceIcon(type) {
+        const icons = {
+            window: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 4h16v16H4V4Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 4v16M4 12h16" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      `,
+            replace: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 11a8 8 0 0 0-14.2-4.9L4 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 4v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 13a8 8 0 0 0 14.2 4.9L20 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20 20v-4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            repair: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14.7 6.3a4 4 0 0 0 5 5L11 20a2.1 2.1 0 0 1-3-3l8.7-8.7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 4 20 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            energy: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13 2 4 14h7l-1 8 10-13h-7l0-7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      `
+        };
 
-        mount.innerHTML = config.stats
-            .map((item) => {
-                const decimals = String(item.value).includes(".") ? 1 : 0;
-
-                return `
-                    <article class="stat-item">
-                        <span class="stat-icon" aria-hidden="true">
-                            ${getServicesIcon(item.icon)}
-                        </span>
-
-                        <div class="stat-value">
-                            <span
-                                data-count-to="${escapeHtml(item.value)}"
-                                data-count-decimals="${decimals}"
-                                data-count-duration="1400"
-                            >0</span>
-                            <span class="stat-suffix">${escapeHtml(item.suffix)}</span>
-                        </div>
-
-                        <p class="stat-label">${escapeHtml(item.label)}</p>
-                    </article>
-                `;
-            })
-            .join("");
-
-        initServicesCounters();
+        return icons[type] || icons.window;
     }
 
-    function initServicesCounters() {
-        const counters = Array.from(document.querySelectorAll("[data-services-stats] [data-count-to]"));
+    function factorIcon(type) {
+        const icons = {
+            badge: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 4h8l3 5-7 11L5 9l3-5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="m9.5 11 1.8 1.8L15 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            layers: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m12 3 9 5-9 5-9-5 9-5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="m3 12 9 5 9-5M3 16l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      `,
+            calendar: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 4h14v16H5V4Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M8 2v4M16 2v4M5 9h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            shield: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="m9 12 2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            file: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 3h7l4 4v14H7V3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M14 3v5h5M9 13h6M9 17h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            star: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      `
+        };
 
-        if (!counters.length) return;
-
-        const observer = new IntersectionObserver(
-            (entries, currentObserver) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-
-                    animateCounter(entry.target);
-                    currentObserver.unobserve(entry.target);
-                });
-            },
-            {
-                threshold: 0.35
-            }
-        );
-
-        counters.forEach((counter) => observer.observe(counter));
+        return icons[type] || icons.shield;
     }
 
-    function animateCounter(element) {
-        const target = parseFloat(element.getAttribute("data-count-to") || "0");
-        const decimals = Number(element.getAttribute("data-count-decimals") || "0");
-        const duration = Number(element.getAttribute("data-count-duration") || "1300");
-        const start = performance.now();
-
-        function frame(now) {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const value = target * eased;
-
-            element.textContent = value.toFixed(decimals);
-
-            if (progress < 1) {
-                requestAnimationFrame(frame);
-            } else {
-                element.textContent = target.toFixed(decimals);
-            }
-        }
-
-        requestAnimationFrame(frame);
-    }
+    /* ========================================================
+       Helpers
+       ======================================================== */
 
     function escapeHtml(value) {
-        return String(value || "")
+        return String(value ?? "")
             .replaceAll("&", "&amp;")
             .replaceAll("<", "&lt;")
             .replaceAll(">", "&gt;")
@@ -166,88 +197,7 @@
             .replaceAll("'", "&#039;");
     }
 
-    function getServicesIcon(name) {
-        const icons = {
-            window: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M4 3H20V21H4V3Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M12 3V21" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M4 12H20" stroke="currentColor" stroke-width="1.7"/>
-                </svg>
-            `,
-
-            shield: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3L19 6V11.5C19 16.1 16.2 19.4 12 21C7.8 19.4 5 16.1 5 11.5V6L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M8.8 12L11 14.2L15.4 9.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            materials: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M4 5H20V19H4V5Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M8 5V19" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M16 5V19" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M4 12H20" stroke="currentColor" stroke-width="1.7"/>
-                </svg>
-            `,
-
-            pricing: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3V21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                    <path d="M16.5 7.5C15.6 6.6 14.1 6 12.4 6C9.9 6 8 7.1 8 9C8 13 16.5 11.2 16.5 15.8C16.5 17.8 14.4 19 11.9 19C10.1 19 8.4 18.4 7.4 17.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            calendar: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M5 5H19V20H5V5Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M8 3V7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                    <path d="M16 3V7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                    <path d="M5 10H19" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M8 14H11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                    <path d="M13 14H16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            warranty: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3L14.2 5.1L17.2 4.8L18 7.8L20.6 9.4L19.4 12L20.6 14.6L18 16.2L17.2 19.2L14.2 18.9L12 21L9.8 18.9L6.8 19.2L6 16.2L3.4 14.6L4.6 12L3.4 9.4L6 7.8L6.8 4.8L9.8 5.1L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M8.8 12L11 14.2L15.4 9.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            timer: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 21C16.4 21 20 17.4 20 13C20 8.6 16.4 5 12 5C7.6 5 4 8.6 4 13C4 17.4 7.6 21 12 21Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M9 2.8H15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                    <path d="M12 9V13L15 14.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            "clipboard-check": `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M8 4H16L17 6H20V21H4V6H7L8 4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M8.5 13L11 15.5L15.8 10.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            target: `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 21C17 21 21 17 21 12C21 7 17 3 12 3C7 3 3 7 3 12C3 17 7 21 12 21Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M12 16C14.2 16 16 14.2 16 12C16 9.8 14.2 8 12 8C9.8 8 8 9.8 8 12C8 14.2 9.8 16 12 16Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M12 12H21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            "badge-check": `
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3L14.2 5.1L17.2 4.8L18 7.8L20.6 9.4L19.4 12L20.6 14.6L18 16.2L17.2 19.2L14.2 18.9L12 21L9.8 18.9L6.8 19.2L6 16.2L3.4 14.6L4.6 12L3.4 9.4L6 7.8L6.8 4.8L9.8 5.1L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M8.8 12L11 14.2L15.4 9.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `
-        };
-
-        return icons[name] || icons.window;
+    function escapeAttr(value) {
+        return escapeHtml(value);
     }
 })();

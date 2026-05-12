@@ -1,15 +1,21 @@
 "use strict";
 
+/* ==========================================================
+   Skylin — Global Website Config
+   All reusable brand, contact, service, FAQ, legal, form,
+   meta, and UI copy must be controlled from this file.
+   ========================================================== */
+
 window.SITE_CONFIG = {
     companyName: "Skylin",
     companyId: "Skylin Provider Matching LLC",
 
     brand: {
         shortName: "Skylin",
-        tagline: "Compare independent local window provider options with clarity.",
+        tagline: "Compare local window provider options with clarity.",
         logoLabel: "Skylin home",
         logoText: "Skylin",
-        themeName: "Deep Frosted Blue + Architectural Gray + Graphite"
+        themeName: "Obsidian Glass + Deep Teal + Neon Sky"
     },
 
     phone: "(833) 456-7890",
@@ -17,7 +23,7 @@ window.SITE_CONFIG = {
     phoneLabel: "Call Skylin at (833) 456-7890",
     phoneButtonText: "(833) 456-7890",
 
-    email: "hello@skylin.com",
+    email: "hello@skylinmatch.com",
 
     address: {
         line1: "1234 Market St, Suite 500",
@@ -28,13 +34,16 @@ window.SITE_CONFIG = {
         full: "1234 Market St, Suite 500, Denver, CO 80202, USA"
     },
 
-    serviceArea: "United States",
+    serviceArea: "Serving homeowners across the USA",
 
-    footerText: "Skylin is a free platform that helps homeowners compare independent window provider options in their area.",
+    footerText:
+        "Skylin helps homeowners compare independent local window provider options and organize request details with more clarity.",
 
-    disclaimer: "Disclaimer: This site is a free service to assist homeowners in connecting with local service providers. All contractors/providers are independent and this site does not warrant or guarantee any work performed. It is the responsibility of the homeowner to verify that the hired contractor furnishes the necessary license and insurance required for the work being performed. All persons depicted in a photo or video are actors or models and not contractors listed on this site.",
+    disclaimer:
+        "Disclaimer: This site is a free service to assist homeowners in connecting with local service providers. All contractors/providers are independent and this site does not warrant or guarantee any work performed. It is the responsibility of the homeowner to verify that the hired contractor furnishes the necessary license and insurance required for the work being performed. All persons depicted in a photo or video are actors or models and not contractors listed on this site.",
 
-    legalNotice: "Skylin is an independent provider-matching platform. Skylin does not perform window installation, replacement, repair, inspection, or energy-efficiency work directly. Homeowners should verify licensing, insurance, quotes, timelines, warranty terms, and provider credentials directly with any provider they choose.",
+    legalNotice:
+        "Skylin is an independent provider-matching platform. Skylin does not perform window installation, replacement, repair, inspection, or energy-efficiency work directly. Provider availability, qualifications, quotes, timelines, warranties, and service terms must be reviewed directly with each independent provider.",
 
     navigation: [
         {
@@ -42,20 +51,53 @@ window.SITE_CONFIG = {
             href: "index.html"
         },
         {
-            label: "Services",
-            href: "services.html"
+            label: "Window Options",
+            href: "services.html",
+            children: [
+                {
+                    label: "Window Installation",
+                    href: "window-installation.html"
+                },
+                {
+                    label: "Window Replacement",
+                    href: "window-replacement.html"
+                },
+                {
+                    label: "Window Repair",
+                    href: "window-repair.html"
+                },
+                {
+                    label: "Energy-Efficient Windows",
+                    href: "energy-efficient-windows.html"
+                }
+            ]
         },
         {
             label: "How Skylin Works",
-            href: "about.html#how-skylin-works"
+            href: "index.html#how-it-works"
         },
         {
-            label: "About",
+            label: "Platform",
             href: "about.html"
         },
         {
             label: "Contact",
             href: "contact.html"
+        }
+    ],
+
+    legalLinks: [
+        {
+            label: "Privacy Policy",
+            href: "privacy-policy.html"
+        },
+        {
+            label: "Cookie Policy",
+            href: "cookie-policy.html"
+        },
+        {
+            label: "Terms of Service",
+            href: "terms-of-service.html"
         }
     ],
 
@@ -65,46 +107,28 @@ window.SITE_CONFIG = {
             title: "Window Installation",
             shortTitle: "Installation",
             href: "window-installation.html",
-            icon: "window-frame",
+            icon: "window",
             image: "./assets/images/service-installation.jpg",
-            heroImage: "./assets/images/service-installation.jpg",
-            summary: "Compare independent local provider options for new window installation projects.",
-            cardText: "Explore provider options for new window openings, room updates, and home improvement projects.",
-            heroTitle: "Window Installation Options",
-            heroText: "Compare local window installation provider options and organize your request with clearer project details.",
-            pageKicker: "Provider Matching For Window Installation",
-            pageIntro: "Skylin helps homeowners compare independent provider options for window installation projects. Skylin does not perform installation work directly.",
-            ctaLabel: "Compare Installation Providers",
-            factors: [
-                "Window type and frame material",
-                "Project location and access",
-                "Measurement and quote process",
-                "Timeline and availability",
-                "Warranty terms",
-                "Licensing and insurance verification"
+            heroImage: "./assets/images/hero-service-installation.jpg",
+            kicker: "New Window Projects",
+            summary:
+                "Explore local provider options for new window installation requests, project details, and quote conversations.",
+            cardText:
+                "Compare independent providers for new window installation planning.",
+            heroTitle: "Compare Window Installation Provider Options",
+            heroText:
+                "Skylin helps organize your project request so you can compare independent local providers directly.",
+            pageIntro:
+                "Window installation projects can involve frame conditions, opening sizes, glass choices, timelines, materials, and budget expectations. Skylin helps homeowners prepare request details before speaking with independent providers.",
+            evaluationPoints: [
+                "Window opening and frame conditions",
+                "Material, glass, and style preferences",
+                "Quote clarity and project timeline",
+                "Provider licensing, insurance, and warranty details"
             ],
-            preparation: [
-                "Approximate number of windows",
-                "Preferred window style",
-                "Home type and project ZIP code",
-                "Photos or notes about existing openings",
-                "Timeline expectations",
-                "Questions about warranty terms"
-            ],
-            faq: [
-                {
-                    question: "Does Skylin install windows directly?",
-                    answer: "No. Skylin is a provider-matching platform. Homeowners compare independent local provider options and choose who to contact or hire."
-                },
-                {
-                    question: "What should I prepare before requesting installation options?",
-                    answer: "It helps to prepare your ZIP code, number of windows, preferred window style, photos if available, and any timeline or budget notes."
-                },
-                {
-                    question: "Should I verify licensing and insurance?",
-                    answer: "Yes. Homeowners should verify licensing, insurance, quote details, timelines, and warranty terms directly with any provider they consider."
-                }
-            ]
+            ctaTitle: "Start a window installation matching request",
+            ctaText:
+                "Share a few project details and compare provider options directly."
         },
         {
             id: "window-replacement",
@@ -113,188 +137,247 @@ window.SITE_CONFIG = {
             href: "window-replacement.html",
             icon: "replace",
             image: "./assets/images/service-replacement.jpg",
-            heroImage: "./assets/images/service-replacement.jpg",
-            summary: "Review independent provider options for replacing aging, damaged, or inefficient windows.",
-            cardText: "Compare provider options for window replacement projects with clearer request details.",
-            heroTitle: "Window Replacement Options",
-            heroText: "Explore local provider options for replacement windows and compare project-fit factors before making a decision.",
-            pageKicker: "Provider Matching For Window Replacement",
-            pageIntro: "Skylin helps homeowners organize replacement window requests and compare independent provider options. Skylin does not replace windows directly.",
-            ctaLabel: "Compare Replacement Providers",
-            factors: [
+            heroImage: "./assets/images/hero-service-replacement.jpg",
+            kicker: "Replacement Planning",
+            summary:
+                "Compare local provider options for replacing outdated, damaged, drafty, or inefficient windows.",
+            cardText:
+                "Review provider options for window replacement conversations.",
+            heroTitle: "Compare Window Replacement Provider Options",
+            heroText:
+                "Skylin helps homeowners organize window replacement requests before comparing independent local providers.",
+            pageIntro:
+                "Replacement projects may include old window removal, frame review, glass upgrades, efficiency goals, exterior finish details, and scheduling. Skylin helps make those details easier to compare.",
+            evaluationPoints: [
                 "Existing window condition",
-                "Frame and glass preferences",
-                "Energy-efficiency goals",
-                "Quote detail transparency",
-                "Project timeline",
-                "Warranty and support terms"
+                "Replacement style and material options",
+                "Energy performance expectations",
+                "Quote scope, timeline, and warranty terms"
             ],
-            preparation: [
-                "Number of windows to replace",
-                "Photos of current windows",
-                "Known drafts, leaks, or damage",
-                "Preferred frame material",
-                "Energy-efficiency goals",
-                "Questions about quote scope"
-            ],
-            faq: [
-                {
-                    question: "Is Skylin a window replacement company?",
-                    answer: "No. Skylin does not perform replacement work. The platform helps homeowners compare independent provider options."
-                },
-                {
-                    question: "What affects replacement window pricing?",
-                    answer: "Pricing may depend on window count, size, frame material, glass type, access, provider availability, and project scope."
-                },
-                {
-                    question: "Can I compare multiple provider options?",
-                    answer: "Yes. Skylin is designed to help homeowners organize requests and compare independent local provider options."
-                }
-            ]
+            ctaTitle: "Compare replacement provider options",
+            ctaText:
+                "Organize your replacement request and connect with independent providers."
         },
         {
             id: "window-repair",
             title: "Window Repair",
             shortTitle: "Repair",
             href: "window-repair.html",
-            icon: "tool",
+            icon: "repair",
             image: "./assets/images/service-repair.jpg",
-            heroImage: "./assets/images/service-repair.jpg",
-            summary: "Find local provider options for window repair needs, depending on availability and project details.",
-            cardText: "Explore repair provider options for common window issues and project-specific needs.",
-            heroTitle: "Window Repair Options",
-            heroText: "Compare independent provider options for window repair requests and organize details before contacting a company.",
-            pageKicker: "Provider Matching For Window Repair",
-            pageIntro: "Skylin helps homeowners compare independent local options for window repair categories. Skylin does not perform repair work directly.",
-            ctaLabel: "Compare Repair Providers",
-            factors: [
-                "Type of window issue",
-                "Window age and material",
-                "Glass, seal, or frame concerns",
-                "Provider service area",
-                "Response availability",
-                "Repair versus replacement guidance"
+            heroImage: "./assets/images/hero-service-repair.jpg",
+            kicker: "Repair Requests",
+            summary:
+                "Explore provider options for window repair requests involving glass, frames, seals, hardware, or operation issues.",
+            cardText:
+                "Find provider options for repair-focused window requests.",
+            heroTitle: "Compare Window Repair Provider Options",
+            heroText:
+                "Skylin helps homeowners describe repair concerns clearly before comparing independent local providers.",
+            pageIntro:
+                "Window repair conversations may involve stuck windows, cracked glass, seal issues, frame damage, drafts, condensation, or hardware concerns. Skylin helps organize the request so providers can better understand the situation.",
+            evaluationPoints: [
+                "Visible damage or operating issue",
+                "Glass, seal, frame, or hardware concern",
+                "Urgency and access details",
+                "Provider experience and quote clarity"
             ],
-            preparation: [
-                "Photos of the window issue",
-                "Brief description of the problem",
-                "Window age if known",
-                "Room or floor location",
-                "Any safety concerns",
-                "Preferred contact method"
-            ],
-            faq: [
-                {
-                    question: "Does Skylin repair windows?",
-                    answer: "No. Skylin does not repair windows directly. It helps homeowners compare independent local provider options."
-                },
-                {
-                    question: "What repair details are useful to provide?",
-                    answer: "Photos, the type of issue, window location, approximate age, and any urgency notes can help organize a clearer request."
-                },
-                {
-                    question: "Can a provider recommend replacement instead of repair?",
-                    answer: "A provider may discuss repair or replacement options depending on window condition. Homeowners should review quote details carefully."
-                }
-            ]
+            ctaTitle: "Request window repair provider matches",
+            ctaText:
+                "Share the repair concern and compare independent provider options."
         },
         {
             id: "energy-efficient-windows",
             title: "Energy-Efficient Windows",
-            shortTitle: "Energy-Efficient",
+            shortTitle: "Energy Windows",
             href: "energy-efficient-windows.html",
-            icon: "leaf-window",
+            icon: "energy",
             image: "./assets/images/service-energy.jpg",
-            heroImage: "./assets/images/service-energy.jpg",
-            summary: "Compare provider options for window projects focused on comfort, efficiency, and updated glass packages.",
-            cardText: "Review provider options for energy-focused window upgrades and comfort-driven projects.",
-            heroTitle: "Energy-Efficient Window Options",
-            heroText: "Explore independent provider options for energy-focused window projects and compare materials, glass packages, and warranty terms.",
-            pageKicker: "Provider Matching For Energy-Efficient Windows",
-            pageIntro: "Skylin helps homeowners compare independent provider options for energy-efficient window projects. Skylin does not perform direct window work.",
-            ctaLabel: "Compare Energy Window Providers",
-            factors: [
-                "Glass package options",
-                "Frame material",
-                "Climate and home orientation",
-                "Efficiency rating details",
-                "Quote scope",
-                "Warranty and support terms"
+            heroImage: "./assets/images/hero-service-energy.jpg",
+            kicker: "Efficiency Options",
+            summary:
+                "Compare provider options for energy-efficient window upgrades, glass packages, and comfort-focused improvements.",
+            cardText:
+                "Explore provider options for energy-conscious window projects.",
+            heroTitle: "Compare Energy-Efficient Window Provider Options",
+            heroText:
+                "Skylin helps homeowners organize efficiency-focused window requests before speaking with independent providers.",
+            pageIntro:
+                "Energy-efficient window projects can include glass packages, frame materials, insulation goals, comfort improvements, and long-term performance expectations. Skylin helps turn those goals into clearer provider conversations.",
+            evaluationPoints: [
+                "Comfort and efficiency priorities",
+                "Glass package and frame material options",
+                "Room-by-room project scope",
+                "Provider warranty and product documentation"
             ],
-            preparation: [
-                "Current comfort concerns",
-                "Rooms affected by drafts or heat gain",
-                "Preferred frame or glass type",
-                "Approximate number of windows",
-                "ZIP code and home type",
-                "Questions about ratings and warranties"
-            ],
-            faq: [
-                {
-                    question: "Does Skylin guarantee energy savings?",
-                    answer: "No. Skylin does not guarantee savings or performance. Homeowners should review product specifications and provider terms directly."
-                },
-                {
-                    question: "What should I ask providers about energy-efficient windows?",
-                    answer: "Ask about frame materials, glass packages, ratings, installation scope, warranty terms, timelines, and any documentation provided."
-                },
-                {
-                    question: "Is Skylin a direct window company?",
-                    answer: "No. Skylin is an independent provider-matching platform and does not perform window work directly."
-                }
-            ]
+            ctaTitle: "Compare energy-efficient window options",
+            ctaText:
+                "Prepare your upgrade request and review local provider options."
         }
     ],
 
-    forms: {
-        contact: {
-            title: "Request window provider options",
-            intro: "Tell us what type of window provider you want to compare. Skylin helps organize your request and connect you with independent local options.",
-            nameLabel: "Full name",
-            phoneLabel: "Phone number",
-            emailLabel: "Email address",
-            zipLabel: "ZIP code",
-            serviceLabel: "Service category",
-            detailsLabel: "Project details",
-            consentLabel: "I agree to the Privacy Policy and Terms of Service.",
-            submitLabel: "Send Request",
-            successTitle: "Request received",
-            successMessage: "Thanks. Your request details have been organized. You can now compare provider options and verify details directly with any provider you choose.",
-            errorMessage: "Please complete the required fields before submitting.",
-            options: [
-                {
-                    value: "",
-                    label: "Select a service"
-                },
-                {
-                    value: "window-installation",
-                    label: "Window Installation"
-                },
-                {
-                    value: "window-replacement",
-                    label: "Window Replacement"
-                },
-                {
-                    value: "window-repair",
-                    label: "Window Repair"
-                },
-                {
-                    value: "energy-efficient-windows",
-                    label: "Energy-Efficient Windows"
-                }
-            ]
+    processSteps: [
+        {
+            number: "01",
+            title: "Tell us about your project",
+            text:
+                "Share the window category, property details, timing, and basic request information.",
+            icon: "clipboard"
         },
-        compactCta: {
-            title: "Not sure which service fits your project?",
-            intro: "Share a few details and compare independent local window provider options.",
-            buttonLabel: "Contact Skylin"
+        {
+            number: "02",
+            title: "We organize your request",
+            text:
+                "Skylin structures your details so the project is easier to compare and discuss.",
+            icon: "layout"
+        },
+        {
+            number: "03",
+            title: "You connect with providers",
+            text:
+                "Your request can be matched with independent local window provider options.",
+            icon: "network"
+        },
+        {
+            number: "04",
+            title: "Compare directly",
+            text:
+                "Review quotes, credentials, timelines, warranty terms, and provider fit directly.",
+            icon: "compare"
+        }
+    ],
+
+    stats: [
+        {
+            value: 94,
+            suffix: "%",
+            label: "Request clarity",
+            text: "Project details organized for easier provider conversations.",
+            icon: "check"
+        },
+        {
+            value: 91,
+            suffix: "%",
+            label: "Category fit",
+            text: "Requests aligned with the right window service category.",
+            icon: "target"
+        },
+        {
+            value: 96,
+            suffix: "%",
+            label: "Response organization",
+            text: "Structured information that helps reduce back-and-forth.",
+            icon: "shield"
+        },
+        {
+            value: 2,
+            suffix: " min",
+            label: "Avg. request start",
+            text: "A compact form experience designed for speed and clarity.",
+            icon: "clock"
+        }
+    ],
+
+    comparisonFactors: [
+        {
+            label: "Licensing & Insurance",
+            text:
+                "Ask each provider for licensing and insurance details before agreeing to work.",
+            icon: "badge"
+        },
+        {
+            label: "Materials & Options",
+            text:
+                "Compare window materials, glass packages, frame types, and finish options.",
+            icon: "layers"
+        },
+        {
+            label: "Timeline & Availability",
+            text:
+                "Review scheduling expectations and availability directly with providers.",
+            icon: "calendar"
+        },
+        {
+            label: "Warranty & Support",
+            text:
+                "Confirm product, labor, and service warranty details before moving forward.",
+            icon: "shield"
+        },
+        {
+            label: "Quote Transparency",
+            text:
+                "Compare what is included, excluded, optional, or dependent on inspection.",
+            icon: "file"
+        },
+        {
+            label: "Reviews & Reputation",
+            text:
+                "Check provider reviews, references, and reputation in your local area.",
+            icon: "star"
+        }
+    ],
+
+    socialProof: {
+        eyebrow: "Platform clarity",
+        title: "Designed for better window provider conversations.",
+        items: [
+            {
+                label: "Clearer requests",
+                value: "01",
+                text:
+                    "Skylin helps turn scattered project details into a more structured request."
+            },
+            {
+                label: "Independent options",
+                value: "02",
+                text:
+                    "Homeowners can compare provider options without treating Skylin as the contractor."
+            },
+            {
+                label: "Verification reminders",
+                value: "03",
+                text:
+                    "The platform reminds users to verify licensing, insurance, quotes, and warranties."
+            }
+        ]
+    },
+
+    forms: {
+        default: {
+            title: "Tell us about your project",
+            intro:
+                "Share a few details and Skylin will help organize your provider-matching request.",
+            nameLabel: "Full Name",
+            emailLabel: "Email Address",
+            phoneLabel: "Phone Number",
+            zipLabel: "ZIP Code",
+            serviceLabel: "Service Needed",
+            messageLabel: "Tell us about your project",
+            consentLabel:
+                "I understand Skylin is a provider-matching platform and does not perform window work directly.",
+            submitLabel: "Get Provider Matches",
+            successTitle: "Request received.",
+            successMessage:
+                "Thanks. Your request details were captured. You can now compare provider options directly.",
+            errorMessage:
+                "Please complete the required fields before submitting your request."
+        },
+        contact: {
+            title: "Start a Skylin request",
+            intro:
+                "Use the compact form to organize your window provider matching request.",
+            submitLabel: "Request Provider Matches",
+            successTitle: "Thanks — your details are ready.",
+            successMessage:
+                "Your request has been organized for provider matching conversations."
         }
     },
 
     cookieBanner: {
         storageKey: "skylin_policy_choice_v1",
-        title: "Privacy and cookie notice",
-        text: "Skylin uses cookies and similar technologies to improve site experience and understand general usage. Review our policies before continuing.",
+        title: "Privacy & cookie preferences",
+        text:
+            "Skylin uses basic cookies and local storage to improve site experience and remember your preference. Review our policies for more information.",
         accept: "Accept",
         decline: "Decline",
         links: [
@@ -314,290 +397,155 @@ window.SITE_CONFIG = {
     },
 
     faq: {
-        general: [
+        home: [
             {
-                question: "How does Skylin help compare local window providers?",
-                answer: "Skylin helps homeowners organize project details, explore window service categories, and compare independent local provider options."
+                question: "Does Skylin perform window work directly?",
+                answer:
+                    "No. Skylin is an independent provider-matching platform. Skylin does not install, replace, repair, inspect, or service windows directly."
             },
             {
-                question: "Is Skylin a window contractor?",
-                answer: "No. Skylin is not a window contractor and does not perform installation, replacement, repair, inspection, or energy-efficiency work directly."
-            },
-            {
-                question: "What should I ask before choosing a window provider?",
-                answer: "Ask about licensing, insurance, quote scope, product options, timelines, warranty terms, cleanup, and payment details."
+                question: "Are providers independent?",
+                answer:
+                    "Yes. Providers are independent. Homeowners should verify licensing, insurance, quote details, timelines, warranties, and credentials directly with any provider."
             },
             {
                 question: "Are quotes from providers usually free?",
-                answer: "Quote practices vary by provider and area. Homeowners should confirm any estimate terms directly before scheduling."
+                answer:
+                    "Quote policies vary by provider, service category, project scope, and location. Confirm any quote, visit, or inspection costs directly with the provider."
             },
             {
-                question: "How do I know if a provider serves my area?",
-                answer: "Availability can vary by ZIP code and service category. Confirm service area details directly with any provider you contact."
+                question: "What should I ask before choosing a window provider?",
+                answer:
+                    "Ask about licensing, insurance, experience, materials, quote scope, payment terms, scheduling, warranties, and local references."
+            }
+        ],
+        services: [
+            {
+                question: "Which window service categories can I compare?",
+                answer:
+                    "Skylin focuses on four categories: window installation, window replacement, window repair, and energy-efficient windows."
+            },
+            {
+                question: "Can I compare more than one service category?",
+                answer:
+                    "Yes. You can describe your project needs and review which category best fits your request before speaking with independent providers."
+            },
+            {
+                question: "Does Skylin recommend one specific provider?",
+                answer:
+                    "Skylin helps organize provider-matching requests. You should compare options directly and decide which provider best fits your needs."
             }
         ],
         contact: [
             {
-                question: "What happens after I send a request?",
-                answer: "Your request details can be organized around service category, ZIP code, and project notes so you can compare independent provider options."
+                question: "How do I start a request?",
+                answer:
+                    "Use the contact form to share your service category, ZIP code, and project details. Skylin helps organize that information for provider matching."
             },
             {
-                question: "Does Skylin choose a provider for me?",
-                answer: "No. Skylin helps with provider matching and comparison, but homeowners make their own decisions."
+                question: "Can I call instead of using the form?",
+                answer:
+                    "Yes. You can use the phone number listed on the site to start a conversation about your request."
             },
             {
-                question: "Should I verify provider credentials?",
-                answer: "Yes. Always verify licensing, insurance, quote scope, timelines, and warranty terms directly with any provider."
-            },
-            {
-                question: "Can I request options for more than one service?",
-                answer: "Yes. You can describe your full project in the form and select the closest service category."
+                question: "Does availability vary by area?",
+                answer:
+                    "Yes. Provider availability can vary by ZIP code, service category, timing, and project scope."
             }
         ],
-        about: [
+        legal: [
             {
-                question: "Why was Skylin created?",
-                answer: "Skylin was created to make it easier for homeowners to compare window provider options without confusing contractor-style claims."
+                question: "What is Skylin?",
+                answer:
+                    "Skylin is an independent provider-matching platform for window-related service categories."
             },
             {
-                question: "Does Skylin manage window projects?",
-                answer: "No. Skylin does not manage or perform window work. Providers are independent, and homeowners should review terms directly."
+                question: "Does Skylin guarantee provider work?",
+                answer:
+                    "No. Skylin does not warrant or guarantee any work performed by independent providers."
             },
             {
-                question: "Where does Skylin operate?",
-                answer: "Skylin is designed for homeowners in the United States. Provider availability may vary by ZIP code and service category."
+                question: "Who verifies provider credentials?",
+                answer:
+                    "Homeowners are responsible for verifying licensing, insurance, credentials, quotes, timelines, and warranty terms directly with providers."
             }
         ]
-    },
-
-    socialProof: {
-        eyebrow: "Matching Insights",
-        title: "Real-time matching signals",
-        intro: "Live-style platform indicators based on recent homeowner request organization patterns.",
-        items: [
-            {
-                label: "Provider match speed",
-                value: "1.2",
-                suffix: " min",
-                text: "Average visual request-routing signal"
-            },
-            {
-                label: "Request clarity",
-                value: "94",
-                suffix: "%",
-                text: "Project details organized before comparison"
-            },
-            {
-                label: "Category fit",
-                value: "91",
-                suffix: "%",
-                text: "Requests aligned with service categories"
-            },
-            {
-                label: "Response organization",
-                value: "96",
-                suffix: "%",
-                text: "Homeowner details structured for review"
-            }
-        ]
-    },
-
-    stats: [
-        {
-            label: "Provider match speed",
-            value: "1.2",
-            suffix: " min",
-            icon: "timer"
-        },
-        {
-            label: "Request clarity",
-            value: "94",
-            suffix: "%",
-            icon: "clipboard-check"
-        },
-        {
-            label: "Category fit",
-            value: "91",
-            suffix: "%",
-            icon: "target"
-        },
-        {
-            label: "Response organization",
-            value: "96",
-            suffix: "%",
-            icon: "badge-check"
-        }
-    ],
-
-    comparisonFactors: [
-        {
-            title: "Services & Specialties",
-            text: "Compare whether providers handle the specific window category you need."
-        },
-        {
-            title: "Licensing & Insurance",
-            text: "Homeowners should verify licensing and insurance directly with providers."
-        },
-        {
-            title: "Materials & Quality",
-            text: "Review frame materials, glass packages, hardware, and product documentation."
-        },
-        {
-            title: "Pricing & Quotes",
-            text: "Compare quote scope, exclusions, payment timing, and estimate details."
-        },
-        {
-            title: "Timeline & Availability",
-            text: "Ask about scheduling, project duration, and service area availability."
-        },
-        {
-            title: "Warranty & Support",
-            text: "Review labor terms, product warranties, and support expectations directly."
-        }
-    ],
-
-    processSteps: [
-        {
-            number: "01",
-            title: "Tell us about your project",
-            text: "Share your service category, ZIP code, and basic window project details."
-        },
-        {
-            number: "02",
-            title: "We organize your request",
-            text: "Skylin structures the details so provider options are easier to compare."
-        },
-        {
-            number: "03",
-            title: "Compare local providers",
-            text: "Review independent provider options based on category and area availability."
-        },
-        {
-            number: "04",
-            title: "Choose the right fit",
-            text: "You decide who to contact, compare, or hire after verifying details directly."
-        }
-    ],
-
-    map: {
-        title: "Service area context",
-        intro: "Skylin helps homeowners compare window provider options across the United States, with availability varying by ZIP code and service category.",
-        markerLabel: "Skylin contact office",
-        addressNote: "Provider availability varies by area."
-    },
-
-    legalPages: {
-        privacy: {
-            title: "Privacy Policy",
-            updated: "Last updated: May 2026",
-            intro: "This Privacy Policy explains how Skylin may collect, use, and protect information submitted through this provider-matching website.",
-            sections: [
-                {
-                    title: "Information we may collect",
-                    body: "Skylin may collect contact details, project details, ZIP code information, form submissions, device information, and general site usage data."
-                },
-                {
-                    title: "How information may be used",
-                    body: "Information may be used to organize homeowner requests, support provider comparison, improve site experience, respond to inquiries, and maintain platform operations."
-                },
-                {
-                    title: "Independent providers",
-                    body: "Providers are independent. Homeowners should review each provider’s privacy practices, terms, licensing, insurance, quotes, and warranties directly."
-                },
-                {
-                    title: "Your choices",
-                    body: "You may contact Skylin using the contact information on this site to ask questions about submitted information."
-                }
-            ]
-        },
-        cookie: {
-            title: "Cookie Policy",
-            updated: "Last updated: May 2026",
-            intro: "This Cookie Policy explains how Skylin may use cookies and similar technologies to support site functionality and improve user experience.",
-            sections: [
-                {
-                    title: "What cookies do",
-                    body: "Cookies may help remember policy choices, understand general site usage, and improve basic website performance."
-                },
-                {
-                    title: "Policy choice storage",
-                    body: "When you accept or decline the policy banner, the choice may be saved locally in your browser using localStorage."
-                },
-                {
-                    title: "Managing cookies",
-                    body: "You can manage or delete cookies and local storage through your browser settings."
-                }
-            ]
-        },
-        terms: {
-            title: "Terms of Service",
-            updated: "Last updated: May 2026",
-            intro: "These Terms of Service describe the general conditions for using the Skylin provider-matching website.",
-            sections: [
-                {
-                    title: "Platform role",
-                    body: "Skylin is an independent provider-matching platform. Skylin does not perform window services directly and does not control independent providers."
-                },
-                {
-                    title: "Homeowner responsibility",
-                    body: "Homeowners are responsible for verifying licensing, insurance, quotes, timelines, warranties, service terms, and provider credentials before hiring any provider."
-                },
-                {
-                    title: "No guarantee",
-                    body: "Skylin does not warrant or guarantee provider availability, pricing, workmanship, outcomes, or project timelines."
-                },
-                {
-                    title: "Website use",
-                    body: "Users agree to provide accurate information and use this site only for lawful provider-comparison purposes."
-                }
-            ]
-        }
     },
 
     pageMeta: {
         "index.html": {
-            title: "Skylin | Compare Local Window Providers",
-            description: "Compare independent local window provider options for installation, replacement, repair, and energy-efficient window projects."
+            title: "Skylin | Compare Local Window Provider Options",
+            description:
+                "Skylin helps homeowners compare independent local window provider options for installation, replacement, repair, and energy-efficient window projects."
         },
         "services.html": {
-            title: "Window Provider Options | Skylin",
-            description: "Explore window installation, replacement, repair, and energy-efficient window provider options through Skylin."
+            title: "Window Options | Skylin",
+            description:
+                "Explore Skylin window service categories and compare independent provider options for installation, replacement, repair, and energy-efficient windows."
         },
         "about.html": {
             title: "About Skylin | Window Provider Matching Platform",
-            description: "Learn how Skylin helps homeowners compare independent local window providers while staying clear about its platform role."
+            description:
+                "Learn how Skylin helps homeowners organize window project requests and compare independent local provider options."
         },
         "contact.html": {
-            title: "Contact Skylin | Request Window Provider Options",
-            description: "Contact Skylin to organize your window project request and compare independent local provider options."
+            title: "Contact Skylin | Request Window Provider Matches",
+            description:
+                "Contact Skylin to start a window provider matching request for installation, replacement, repair, or energy-efficient window options."
         },
         "window-installation.html": {
             title: "Window Installation Provider Options | Skylin",
-            description: "Compare independent local window installation provider options and review project-fit factors before choosing a provider."
+            description:
+                "Compare independent local provider options for window installation requests with Skylin."
         },
         "window-replacement.html": {
             title: "Window Replacement Provider Options | Skylin",
-            description: "Compare window replacement provider options and organize details for aging, damaged, or inefficient windows."
+            description:
+                "Compare local window replacement provider options and organize your replacement request with Skylin."
         },
         "window-repair.html": {
             title: "Window Repair Provider Options | Skylin",
-            description: "Explore independent local window repair provider options and prepare project details before contacting providers."
+            description:
+                "Explore provider options for window repair requests involving glass, frames, seals, hardware, and operation issues."
         },
         "energy-efficient-windows.html": {
             title: "Energy-Efficient Window Provider Options | Skylin",
-            description: "Compare provider options for energy-efficient window projects, including materials, glass packages, and warranty terms."
+            description:
+                "Compare provider options for energy-efficient window upgrades, comfort improvements, and performance-focused projects."
         },
         "privacy-policy.html": {
             title: "Privacy Policy | Skylin",
-            description: "Review the Skylin Privacy Policy for this window provider-matching website."
+            description:
+                "Review the Skylin Privacy Policy for information about how the provider-matching platform handles privacy-related practices."
         },
         "cookie-policy.html": {
             title: "Cookie Policy | Skylin",
-            description: "Review how Skylin may use cookies and local storage on this provider-matching website."
+            description:
+                "Review the Skylin Cookie Policy for information about cookies, local storage, and preference choices."
         },
         "terms-of-service.html": {
             title: "Terms of Service | Skylin",
-            description: "Review the terms for using the Skylin window provider-matching platform."
+            description:
+                "Review the Skylin Terms of Service for platform use, provider matching, and homeowner responsibility information."
+        }
+    },
+
+    assets: {
+        logo: "./assets/icons/logo-window.svg",
+        favicon: "./assets/icons/favicon.svg",
+        images: {
+            heroHome: "./assets/images/hero-home.jpg",
+            heroServices: "./assets/images/hero-services.jpg",
+            heroAbout: "./assets/images/hero-about.jpg",
+            heroContact: "./assets/images/hero-contact.jpg",
+            interiorOne: "./assets/images/interior-window-01.jpg",
+            interiorTwo: "./assets/images/interior-window-02.jpg",
+            interiorThree: "./assets/images/interior-window-03.jpg",
+            frameDetail: "./assets/images/window-frame-detail.jpg",
+            glassDetail: "./assets/images/glass-detail.jpg",
+            exteriorHome: "./assets/images/exterior-window-home.jpg",
+            mapPanel: "./assets/images/map-panel.jpg",
+            ctaPhoto: "./assets/images/cta-window-night.jpg"
         }
     }
 };

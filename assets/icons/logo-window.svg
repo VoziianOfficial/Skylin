@@ -1,0 +1,36 @@
+<svg width="220" height="64" viewBox="0 0 220 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Skylin logo</title>
+
+  <defs>
+    <linearGradient id="skylinLogoGlass" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00C2FF"/>
+      <stop offset="0.48" stop-color="#009DFF"/>
+      <stop offset="1" stop-color="#164E46"/>
+    </linearGradient>
+
+    <filter id="skylinLogoGlow" x="-16" y="-16" width="96" height="96" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="3.4" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 0 0 0 0.760784  0 0 0 0 1  0 0 0 0.38 0"/>
+      <feBlend in="SourceGraphic" mode="screen"/>
+    </filter>
+  </defs>
+
+  <g>
+    <path d="M8 15.5L25.5 8.5V55.5L8 48.5V15.5Z" stroke="url(#skylinLogoGlass)" stroke-width="3" stroke-linejoin="round" filter="url(#skylinLogoGlow)"/>
+    <path d="M56 15.5L38.5 8.5V55.5L56 48.5V15.5Z" stroke="url(#skylinLogoGlass)" stroke-width="3" stroke-linejoin="round" filter="url(#skylinLogoGlow)"/>
+    <path d="M25.5 13.5L32 17.25L38.5 13.5" stroke="#F1F3F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M25.5 50.5L32 46.75L38.5 50.5" stroke="#F1F3F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 17.25V46.75" stroke="#00C2FF" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M18 21.5L25.5 24.5" stroke="#AEB7BF" stroke-width="1.6" stroke-linecap="round" opacity="0.82"/>
+    <path d="M46 21.5L38.5 24.5" stroke="#AEB7BF" stroke-width="1.6" stroke-linecap="round" opacity="0.82"/>
+  </g>
+
+  <g>
+    <text x="78" y="39" fill="#FFFFFF" font-family="Space Grotesk, Manrope, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-1.6">
+      Skylin
+    </text>
+
+    <path d="M78 49H158" stroke="#00C2FF" stroke-width="1.4" stroke-linecap="round" opacity="0.82"/>
+    <path d="M166 49H200" stroke="#AEB7BF" stroke-width="1.4" stroke-linecap="round" opacity="0.44"/>
+  </g>
+</svg>

@@ -1,19 +1,9 @@
 "use strict";
 
 /* ==========================================================
-   SKylin — Main Shared Script
-   Handles:
-   - SITE_CONFIG validation
-   - Dynamic text/link injection
-   - Shared header/footer rendering
-   - Mobile menu
-   - Active navigation state
-   - Service cards/lists
-   - FAQ accordion + FAQ JSON-LD
-   - Cookie/policy banner
-   - Form validation
-   - Animated counters
-   - Basic responsive safety
+   Skylin — Global Main Script
+   Shared dynamic content, header, footer, mobile menu,
+   FAQ, forms, cookie banner, counters, meta injection.
    ========================================================== */
 
 (function () {
@@ -24,573 +14,415 @@
         return;
     }
 
-    const state = {
-        mobileMenuOpen: false,
-        lastFocusedElement: null
-    };
+    document.addEventListener("DOMContentLoaded", initSite);
 
-    const selectors = {
-        headerMount: "[data-site-header]",
-        footerMount: "[data-site-footer]",
-        policyBanner: "[data-policy-banner]"
-    };
-
-    document.addEventListener("DOMContentLoaded", init);
-
-    function init() {
+    function initSite() {
         applyPageMeta();
         renderHeader();
         renderFooter();
-        injectGlobalContent();
+        injectDynamicContent();
         renderServiceCards();
         renderServiceLists();
         renderFaqBlocks();
-        renderFaqSchemaBlocks();
+        renderFaqSchema();
         renderPolicyBanner();
+        renderFormModules();
         initMobileMenu();
+        initHeaderScroll();
         initFaqAccordions();
         initForms();
         initCounters();
-        setHeaderOffset();
-        watchResize();
-        preventOverflowHelpers();
+        preventEmptyLinks();
+        document.documentElement.classList.add("site-ready");
     }
 
-    /* ======================================================
-       Helpers
-       ====================================================== */
-
-    function getCurrentPage() {
-        const path = window.location.pathname;
-        const file = path.substring(path.lastIndexOf("/") + 1);
-        return file || "index.html";
-    }
-
-    function escapeHtml(value) {
-        return String(value || "")
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
-    }
-
-    function normalizeHref(href) {
-        if (!href) return "";
-        return href.split("#")[0];
-    }
-
-    function isCurrentHref(href) {
-        const current = getCurrentPage();
-        const cleanHref = normalizeHref(href);
-
-        if (cleanHref === current) return true;
-
-        if (current === "index.html" && (cleanHref === "/" || cleanHref === "./")) {
-            return true;
-        }
-
-        return false;
-    }
-
-    function qs(selector, parent = document) {
-        return parent.querySelector(selector);
-    }
-
-    function qsa(selector, parent = document) {
-        return Array.from(parent.querySelectorAll(selector));
-    }
-
-    function createElementFromHTML(html) {
-        const template = document.createElement("template");
-        template.innerHTML = html.trim();
-        return template.content.firstElementChild;
-    }
-
-    function getServiceById(serviceId) {
-        return config.services.find((service) => service.id === serviceId);
-    }
-
-    function getFaqGroup(groupName) {
-        if (!groupName) return config.faq.general || [];
-        return config.faq[groupName] || config.faq.general || [];
-    }
-
-    function getFocusableElements(container) {
-        return qsa(
-            [
-                "a[href]",
-                "button:not([disabled])",
-                "textarea:not([disabled])",
-                "input:not([disabled])",
-                "select:not([disabled])",
-                "[tabindex]:not([tabindex='-1'])"
-            ].join(","),
-            container
-        ).filter((element) => {
-            const style = window.getComputedStyle(element);
-            return style.display !== "none" && style.visibility !== "hidden";
-        });
-    }
-
-    /* ======================================================
-       Meta
-       ====================================================== */
+    /* ========================================================
+       Page Meta
+       ======================================================== */
 
     function applyPageMeta() {
-        const currentPage = getCurrentPage();
-        const pageMeta = config.pageMeta && config.pageMeta[currentPage];
+        const page = getCurrentPage();
+        const meta = config.pageMeta && config.pageMeta[page];
 
-        if (!pageMeta) {
-            console.warn(`No pageMeta found for ${currentPage}.`);
-            return;
+        if (!meta) return;
+
+        if (meta.title) {
+            document.title = meta.title;
         }
 
-        if (pageMeta.title) {
-            document.title = pageMeta.title;
+        if (meta.description) {
+            let description = document.querySelector('meta[name="description"]');
+
+            if (!description) {
+                description = document.createElement("meta");
+                description.setAttribute("name", "description");
+                document.head.appendChild(description);
+            }
+
+            description.setAttribute("content", meta.description);
         }
-
-        let metaDescription = qs("meta[name='description']");
-
-        if (!metaDescription) {
-            metaDescription = document.createElement("meta");
-            metaDescription.setAttribute("name", "description");
-            document.head.appendChild(metaDescription);
-        }
-
-        metaDescription.setAttribute("content", pageMeta.description || "");
     }
 
-    /* ======================================================
+    /* ========================================================
        Header
-       ====================================================== */
+       ======================================================== */
 
     function renderHeader() {
-        const headerMounts = qsa(selectors.headerMount);
+        const mounts = document.querySelectorAll("[data-site-header]");
+        if (!mounts.length) return;
 
-        if (!headerMounts.length) return;
+        mounts.forEach((mount) => {
+            mount.innerHTML = `
+        <header class="site-header" data-header>
+          <div class="container-wide site-header-inner">
+            <a class="site-logo" href="index.html" aria-label="${escapeHtml(config.brand.logoLabel || config.companyName)}">
+              ${renderLogoMark()}
+              <span class="site-logo-text" data-logo-text>${escapeHtml(config.brand.logoText || config.companyName)}</span>
+            </a>
 
-        const navItems = config.navigation
+            <nav class="desktop-nav" aria-label="Primary navigation">
+              ${renderDesktopNav()}
+            </nav>
+
+            <div class="header-actions">
+              <a class="header-phone" href="${escapeAttr(config.phoneHref)}" aria-label="${escapeAttr(config.phoneLabel)}" data-phone-link>
+                ${icon("phone")}
+                <span data-phone-text>${escapeHtml(config.phoneButtonText || config.phone)}</span>
+              </a>
+
+              <a class="btn header-contact" href="contact.html">
+                Contact <span data-company-name>${escapeHtml(config.companyName)}</span>
+              </a>
+
+              <button class="mobile-toggle" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false" data-mobile-open>
+                <span class="mobile-toggle-lines" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div class="mobile-menu-backdrop" data-mobile-backdrop></div>
+
+        <aside class="mobile-menu" id="mobileMenu" data-mobile-menu inert>
+          <div class="mobile-menu-header">
+            <a class="site-logo" href="index.html" aria-label="${escapeHtml(config.brand.logoLabel || config.companyName)}">
+              ${renderLogoMark()}
+              <span class="site-logo-text" data-logo-text>${escapeHtml(config.brand.logoText || config.companyName)}</span>
+            </a>
+
+            <button class="mobile-menu-close" type="button" aria-label="Close menu" data-mobile-close>
+              ${icon("x")}
+            </button>
+          </div>
+
+          <div class="mobile-menu-body">
+            <nav class="mobile-nav" aria-label="Mobile navigation">
+              ${renderMobileNav()}
+            </nav>
+          </div>
+
+          <div class="mobile-menu-footer">
+            <a class="btn" href="contact.html">
+              Request Provider Matches <span class="arrow">→</span>
+            </a>
+
+            <div class="mobile-contact-lines">
+              <a href="${escapeAttr(config.phoneHref)}" data-phone-link data-phone-text>${escapeHtml(config.phone)}</a>
+              <a href="mailto:${escapeAttr(config.email)}" data-email-link data-email-text>${escapeHtml(config.email)}</a>
+              <span data-service-area>${escapeHtml(config.serviceArea)}</span>
+            </div>
+          </div>
+        </aside>
+      `;
+        });
+
+        markActiveNav();
+    }
+
+    function renderDesktopNav() {
+        if (!Array.isArray(config.navigation)) return "";
+
+        return config.navigation
             .map((item) => {
-                const activeClass = isCurrentHref(item.href) ? " is-active" : "";
+                const hasChildren = Array.isArray(item.children) && item.children.length;
 
-                return `
-                    <a class="site-nav-link${activeClass}" href="${escapeHtml(item.href)}">
-                        ${escapeHtml(item.label)}
-                    </a>
-                `;
-            })
-            .join("");
-
-        const serviceLinks = config.services
-            .map((service) => {
-                const activeClass = isCurrentHref(service.href) ? " is-active" : "";
-
-                return `
-                    <a class="site-dropdown-link${activeClass}" href="${escapeHtml(service.href)}">
-                        <span class="site-dropdown-icon" aria-hidden="true">${getIcon(service.icon)}</span>
-                        <span>${escapeHtml(service.title)}</span>
-                    </a>
-                `;
-            })
-            .join("");
-
-        const mobileServiceLinks = config.services
-            .map((service) => {
-                const activeClass = isCurrentHref(service.href) ? " is-active" : "";
-
-                return `
-                    <a class="mobile-service-link${activeClass}" href="${escapeHtml(service.href)}">
-                        <span class="mobile-service-icon" aria-hidden="true">${getIcon(service.icon)}</span>
-                        <span>${escapeHtml(service.title)}</span>
-                    </a>
-                `;
-            })
-            .join("");
-
-        const legalLinks = `
-            <a href="privacy-policy.html">Privacy Policy</a>
-            <a href="cookie-policy.html">Cookie Policy</a>
-            <a href="terms-of-service.html">Terms of Service</a>
-        `;
-
-        const headerHTML = `
-            <header class="site-header" data-header>
-                <a class="skip-link" href="#main">Skip to content</a>
-
-                <div class="site-header-inner">
-                    <a class="site-logo" href="index.html" aria-label="${escapeHtml(config.brand.logoLabel)}">
-                        <span class="site-logo-mark" aria-hidden="true">
-                            ${getIcon("logo-window")}
-                        </span>
-                        <span class="site-logo-text" data-logo-text>${escapeHtml(config.brand.logoText)}</span>
-                    </a>
-
-                    <nav class="site-nav" aria-label="Primary navigation">
-                        ${navItems}
-
-                        <div class="site-nav-dropdown">
-                            <button class="site-nav-link site-nav-dropdown-button" type="button" aria-expanded="false">
-                                Window Options
-                                <span aria-hidden="true">${getIcon("chevron-down")}</span>
-                            </button>
-
-                            <div class="site-dropdown-panel">
-                                ${serviceLinks}
-                            </div>
-                        </div>
-                    </nav>
-
-                    <div class="site-header-actions">
-                        <a class="header-phone-link" href="${escapeHtml(config.phoneHref)}" aria-label="${escapeHtml(config.phoneLabel)}" data-phone-link>
-                            <span aria-hidden="true">${getIcon("phone")}</span>
-                            <span class="header-phone-text" data-phone-text>${escapeHtml(config.phone)}</span>
-                        </a>
-
-                        <a class="header-icon-link" href="contact.html" aria-label="Contact ${escapeHtml(config.companyName)}">
-                            <span aria-hidden="true">${getIcon("mail")}</span>
-                        </a>
-
-                        <button class="mobile-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="mobile-menu-backdrop" data-mobile-menu-backdrop hidden></div>
-
-                <aside class="mobile-menu" id="mobileMenu" data-mobile-menu inert>
-                    <div class="mobile-menu-shell">
-                        <div class="mobile-menu-top">
-                            <a class="site-logo mobile-menu-logo" href="index.html" aria-label="${escapeHtml(config.brand.logoLabel)}">
-                                <span class="site-logo-mark" aria-hidden="true">
-                                    ${getIcon("logo-window")}
-                                </span>
-                                <span class="site-logo-text">${escapeHtml(config.brand.logoText)}</span>
-                            </a>
-
-                            <button class="mobile-menu-close" type="button" aria-label="Close menu">
-                                ${getIcon("close")}
-                            </button>
-                        </div>
-
-                        <div class="mobile-menu-main">
-                            <nav class="mobile-nav" aria-label="Mobile navigation">
-                                ${config.navigation
-                .map((item) => {
-                    const activeClass = isCurrentHref(item.href) ? " is-active" : "";
-
+                if (!hasChildren) {
                     return `
-                                            <a class="mobile-nav-link${activeClass}" href="${escapeHtml(item.href)}">
-                                                ${escapeHtml(item.label)}
-                                            </a>
-                                        `;
-                })
-                .join("")}
-                            </nav>
+            <div class="nav-item">
+              <a class="nav-link" href="${escapeAttr(item.href)}" data-nav-link="${escapeAttr(normalizePageRef(item.href))}">
+                ${escapeHtml(item.label)}
+              </a>
+            </div>
+          `;
+                }
 
-                            <div class="mobile-menu-services">
-                                <p class="mobile-menu-label">Window categories</p>
-                                <div class="mobile-service-list" data-mobile-services-list>
-                                    ${mobileServiceLinks}
-                                </div>
-                            </div>
+                return `
+          <div class="nav-item">
+            <a class="nav-link" href="${escapeAttr(item.href)}" data-nav-link="${escapeAttr(normalizePageRef(item.href))}">
+              ${escapeHtml(item.label)}
+              ${chevronDown()}
+            </a>
 
-                            <div class="mobile-menu-contact">
-                                <a class="mobile-contact-card" href="${escapeHtml(config.phoneHref)}" data-phone-link>
-                                    <span aria-hidden="true">${getIcon("phone")}</span>
-                                    <span>
-                                        <strong>Call</strong>
-                                        <small data-phone-text>${escapeHtml(config.phone)}</small>
-                                    </span>
-                                </a>
-
-                                <a class="mobile-contact-card" href="mailto:${escapeHtml(config.email)}" data-email-link>
-                                    <span aria-hidden="true">${getIcon("mail")}</span>
-                                    <span>
-                                        <strong>Email</strong>
-                                        <small data-email-text>${escapeHtml(config.email)}</small>
-                                    </span>
-                                </a>
-                            </div>
-
-                            <div class="mobile-menu-legal">
-                                ${legalLinks}
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-            </header>
+            <div class="nav-dropdown">
+              ${item.children
+                        .map((child) => {
+                            return `
+                    <a href="${escapeAttr(child.href)}" data-nav-link="${escapeAttr(normalizePageRef(child.href))}">
+                      ${escapeHtml(child.label)}
+                    </a>
+                  `;
+                        })
+                        .join("")}
+            </div>
+          </div>
         `;
+            })
+            .join("");
+    }
 
-        headerMounts.forEach((mount) => {
-            mount.innerHTML = headerHTML;
+    function renderMobileNav() {
+        if (!Array.isArray(config.navigation)) return "";
+
+        return config.navigation
+            .map((item) => {
+                const hasChildren = Array.isArray(item.children) && item.children.length;
+
+                return `
+          <div class="mobile-nav-group">
+            <a class="mobile-nav-link" href="${escapeAttr(item.href)}" data-mobile-link data-nav-link="${escapeAttr(normalizePageRef(item.href))}">
+              <span>${escapeHtml(item.label)}</span>
+            </a>
+
+            ${hasChildren
+                        ? `
+                  <div class="mobile-subnav" data-mobile-services-list>
+                    ${item.children
+                            .map((child) => {
+                                return `
+                          <a class="mobile-subnav-link" href="${escapeAttr(child.href)}" data-mobile-link data-nav-link="${escapeAttr(normalizePageRef(child.href))}">
+                            <span>${escapeHtml(child.label)}</span>
+                          </a>
+                        `;
+                            })
+                            .join("")}
+                  </div>
+                `
+                        : ""
+                    }
+          </div>
+        `;
+            })
+            .join("");
+    }
+
+    function markActiveNav() {
+        const page = getCurrentPage();
+
+        document.querySelectorAll("[data-nav-link]").forEach((link) => {
+            const target = normalizePageRef(link.getAttribute("data-nav-link") || link.getAttribute("href") || "");
+
+            if (target === page) {
+                link.classList.add("is-active");
+            }
+
+            if (page !== "index.html" && target === "services.html" && isServicePage(page)) {
+                link.classList.add("is-active");
+            }
         });
     }
 
-    /* ======================================================
+    /* ========================================================
        Footer
-       ====================================================== */
+       ======================================================== */
 
     function renderFooter() {
-        const footerMounts = qsa(selectors.footerMount);
+        const mounts = document.querySelectorAll("[data-site-footer]");
+        if (!mounts.length) return;
 
-        if (!footerMounts.length) return;
+        mounts.forEach((mount) => {
+            mount.innerHTML = `
+        <footer class="site-footer">
+          <div class="footer-inner container-wide">
+            <div class="footer-main">
+              <div class="footer-brand">
+                <a class="site-logo" href="index.html" aria-label="${escapeHtml(config.brand.logoLabel || config.companyName)}">
+                  ${renderLogoMark()}
+                  <span class="site-logo-text" data-logo-text>${escapeHtml(config.brand.logoText || config.companyName)}</span>
+                </a>
 
-        const serviceLinks = config.services
-            .map((service) => {
-                return `
-                    <li>
-                        <a href="${escapeHtml(service.href)}">${escapeHtml(service.title)}</a>
-                    </li>
-                `;
-            })
-            .join("");
+                <p data-footer-text>${escapeHtml(config.footerText)}</p>
 
-        const navLinks = config.navigation
-            .map((item) => {
-                return `
-                    <li>
-                        <a href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>
-                    </li>
-                `;
-            })
-            .join("");
+                <div class="footer-contact">
+                  <div class="contact-line">
+                    ${icon("phone")}
+                    <a href="${escapeAttr(config.phoneHref)}" data-phone-link data-phone-text>${escapeHtml(config.phone)}</a>
+                  </div>
 
-        const footerHTML = `
-            <footer class="site-footer">
-                <div class="container-wide">
-                    <div class="footer-grid">
-                        <div class="footer-brand">
-                            <a class="site-logo footer-logo" href="index.html" aria-label="${escapeHtml(config.brand.logoLabel)}">
-                                <span class="site-logo-mark" aria-hidden="true">
-                                    ${getIcon("logo-window")}
-                                </span>
-                                <span class="site-logo-text" data-logo-text>${escapeHtml(config.brand.logoText)}</span>
-                            </a>
+                  <div class="contact-line">
+                    ${icon("mail")}
+                    <a href="mailto:${escapeAttr(config.email)}" data-email-link data-email-text>${escapeHtml(config.email)}</a>
+                  </div>
 
-                            <p data-footer-text>${escapeHtml(config.footerText)}</p>
-
-                            <p class="footer-company-id">
-                                Company ID:
-                                <span data-company-id>${escapeHtml(config.companyId)}</span>
-                            </p>
-                        </div>
-
-                        <div class="footer-column">
-                            <h2>Services</h2>
-                            <ul>
-                                ${serviceLinks}
-                            </ul>
-                        </div>
-
-                        <div class="footer-column">
-                            <h2>Platform</h2>
-                            <ul>
-                                ${navLinks}
-                                <li><a href="services.html#provider-comparison">Provider Comparison</a></li>
-                                <li><a href="contact.html#faq">FAQ</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-column">
-                            <h2>Company</h2>
-                            <ul>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                <li><a href="cookie-policy.html">Cookie Policy</a></li>
-                                <li><a href="terms-of-service.html">Terms of Service</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-column footer-contact">
-                            <h2>Contact</h2>
-
-                            <ul>
-                                <li>
-                                    <a href="${escapeHtml(config.phoneHref)}" data-phone-link>
-                                        <span aria-hidden="true">${getIcon("phone")}</span>
-                                        <span data-phone-text>${escapeHtml(config.phone)}</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="mailto:${escapeHtml(config.email)}" data-email-link>
-                                        <span aria-hidden="true">${getIcon("mail")}</span>
-                                        <span data-email-text>${escapeHtml(config.email)}</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <span aria-hidden="true">${getIcon("map-pin")}</span>
-                                    <span data-address-text>${escapeHtml(config.address.full)}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer-bottom">
-                        <p>
-                            © <span data-current-year></span>
-                            <span data-company-name>${escapeHtml(config.companyName)}</span>.
-                            All rights reserved.
-                        </p>
-
-                        <p>
-                            Service Area:
-                            <span data-service-area>${escapeHtml(config.serviceArea)}</span>
-                        </p>
-                    </div>
-
-                    <p class="footer-disclaimer" data-disclaimer>
-                        ${escapeHtml(config.disclaimer)}
-                    </p>
+                  <div class="contact-line">
+                    ${icon("map")}
+                    <span data-address-text>${escapeHtml(config.address.full)}</span>
+                  </div>
                 </div>
-            </footer>
-        `;
+              </div>
 
-        footerMounts.forEach((mount) => {
-            mount.innerHTML = footerHTML;
-        });
+              <div class="footer-column">
+                <h3>Window Options</h3>
+                <div class="footer-links">
+                  ${config.services
+                    .map((service) => {
+                        return `<a href="${escapeAttr(service.href)}">${escapeHtml(service.title)}</a>`;
+                    })
+                    .join("")}
+                </div>
+              </div>
 
-        qsa("[data-current-year]").forEach((element) => {
-            element.textContent = new Date().getFullYear();
+              <div class="footer-column">
+                <h3>Platform</h3>
+                <div class="footer-links">
+                  <a href="index.html#how-it-works">How It Works</a>
+                  <a href="about.html">About Platform</a>
+                  <a href="services.html">Window Options</a>
+                  <a href="contact.html">Contact</a>
+                </div>
+              </div>
+
+              <div class="footer-column">
+                <h3>Legal</h3>
+                <div class="footer-links">
+                  ${config.legalLinks
+                    .map((link) => {
+                        return `<a href="${escapeAttr(link.href)}">${escapeHtml(link.label)}</a>`;
+                    })
+                    .join("")}
+                </div>
+              </div>
+
+              <div class="footer-column">
+                <h3>Company</h3>
+                <div class="footer-links">
+                  <span data-company-id>${escapeHtml(config.companyId)}</span>
+                  <span data-service-area>${escapeHtml(config.serviceArea)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-bottom">
+              <p class="footer-disclaimer" data-disclaimer>${escapeHtml(config.disclaimer)}</p>
+
+              <div class="footer-meta">
+                <span>© <span data-current-year>${new Date().getFullYear()}</span> <span data-company-name>${escapeHtml(config.companyName)}</span>. All rights reserved.</span>
+                <span data-legal-notice>${escapeHtml(config.legalNotice)}</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      `;
         });
     }
 
-    /* ======================================================
-       Global dynamic content injection
-       ====================================================== */
+    /* ========================================================
+       Dynamic Content Injection
+       ======================================================== */
 
-    function injectGlobalContent() {
-        const injections = [
-            ["[data-company-name]", config.companyName],
-            ["[data-company-id]", config.companyId],
-            ["[data-brand-name]", config.brand.shortName],
-            ["[data-logo-text]", config.brand.logoText],
-            ["[data-phone-text]", config.phone],
-            ["[data-phone-label]", config.phoneLabel],
-            ["[data-email-text]", config.email],
-            ["[data-address-text]", config.address.full],
-            ["[data-service-area]", config.serviceArea],
-            ["[data-footer-text]", config.footerText],
-            ["[data-disclaimer]", config.disclaimer],
-            ["[data-legal-notice]", config.legalNotice]
-        ];
+    function injectDynamicContent() {
+        setText("[data-company-name]", config.companyName);
+        setText("[data-company-id]", config.companyId);
+        setText("[data-brand-name]", config.brand.shortName || config.companyName);
+        setText("[data-logo-text]", config.brand.logoText || config.companyName);
+        setText("[data-phone-text]", config.phone);
+        setText("[data-phone-label]", config.phoneLabel);
+        setText("[data-email-text]", config.email);
+        setText("[data-address-text]", config.address.full);
+        setText("[data-service-area]", config.serviceArea);
+        setText("[data-footer-text]", config.footerText);
+        setText("[data-disclaimer]", config.disclaimer);
+        setText("[data-legal-notice]", config.legalNotice);
+        setText("[data-current-year]", String(new Date().getFullYear()));
 
-        injections.forEach(([selector, value]) => {
-            qsa(selector).forEach((element) => {
-                element.textContent = value;
-            });
+        document.querySelectorAll("[data-phone-link]").forEach((link) => {
+            link.setAttribute("href", config.phoneHref);
+            if (config.phoneLabel) {
+                link.setAttribute("aria-label", config.phoneLabel);
+            }
         });
 
-        qsa("[data-phone-link]").forEach((element) => {
-            element.setAttribute("href", config.phoneHref);
-            element.setAttribute("aria-label", config.phoneLabel);
+        document.querySelectorAll("[data-email-link]").forEach((link) => {
+            link.setAttribute("href", `mailto:${config.email}`);
         });
 
-        qsa("[data-email-link]").forEach((element) => {
-            element.setAttribute("href", `mailto:${config.email}`);
-            element.setAttribute("aria-label", `Email ${config.companyName}`);
-        });
-
-        qsa("[data-address-link]").forEach((element) => {
-            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.address.full)}`;
-            element.setAttribute("href", mapsUrl);
-            element.setAttribute("target", "_blank");
-            element.setAttribute("rel", "noopener");
+        document.querySelectorAll("[data-company-logo]").forEach((img) => {
+            if (config.assets && config.assets.logo) {
+                img.setAttribute("src", config.assets.logo);
+                img.setAttribute("alt", `${config.companyName} logo`);
+            }
         });
     }
 
-    /* ======================================================
+    function setText(selector, value) {
+        document.querySelectorAll(selector).forEach((element) => {
+            element.textContent = value || "";
+        });
+    }
+
+    /* ========================================================
        Services
-       ====================================================== */
+       ======================================================== */
 
     function renderServiceCards() {
-        qsa("[data-service-cards]").forEach((mount) => {
+        document.querySelectorAll("[data-service-cards]").forEach((mount) => {
             const variant = mount.getAttribute("data-service-cards") || "default";
+            const services = getServicesForMount(mount);
 
-            mount.innerHTML = config.services
-                .map((service) => {
-                    if (variant === "compact") {
-                        return createCompactServiceCard(service);
-                    }
-
-                    if (variant === "editorial") {
-                        return createEditorialServiceCard(service);
-                    }
-
-                    return createPhotoServiceCard(service);
-                })
+            mount.innerHTML = services
+                .map((service, index) => renderServiceCard(service, index, variant))
                 .join("");
         });
     }
 
-    function createPhotoServiceCard(service) {
+    function renderServiceCard(service, index, variant) {
+        const image = service.image || "";
+        const text = service.cardText || service.summary || "";
+        const title = service.title || "";
+        const href = service.href || "#";
+
         return `
-            <a class="service-photo-card" href="${escapeHtml(service.href)}" style="--service-image: url('${escapeHtml(service.image)}');">
-                <span class="service-photo-card-icon" aria-hidden="true">
-                    ${getIcon(service.icon)}
-                </span>
+      <a class="service-card service-card-${escapeAttr(variant)}" href="${escapeAttr(href)}" style="--service-image: url('${escapeAttr(image)}');">
+        <span class="service-card-top">
+          <span class="icon-box" aria-hidden="true">${serviceIcon(service.icon)}</span>
+          <span class="service-card-index">${String(index + 1).padStart(2, "0")}</span>
+        </span>
 
-                <span class="service-photo-card-content">
-                    <strong>${escapeHtml(service.title)}</strong>
-                    <small>${escapeHtml(service.cardText || service.summary)}</small>
-                </span>
-
-                <span class="service-photo-card-line" aria-hidden="true"></span>
-            </a>
-        `;
-    }
-
-    function createCompactServiceCard(service) {
-        return `
-            <a class="service-compact-card" href="${escapeHtml(service.href)}">
-                <span class="service-compact-icon" aria-hidden="true">
-                    ${getIcon(service.icon)}
-                </span>
-
-                <span>
-                    <strong>${escapeHtml(service.title)}</strong>
-                    <small>${escapeHtml(service.summary)}</small>
-                </span>
-            </a>
-        `;
-    }
-
-    function createEditorialServiceCard(service) {
-        return `
-            <article class="service-editorial-card">
-                <a class="service-editorial-image" href="${escapeHtml(service.href)}">
-                    <img src="${escapeHtml(service.image)}" alt="${escapeHtml(service.title)} provider comparison" loading="lazy">
-                </a>
-
-                <div class="service-editorial-content">
-                    <span class="eyebrow">Window category</span>
-                    <h2>
-                        <a href="${escapeHtml(service.href)}">${escapeHtml(service.title)}</a>
-                    </h2>
-                    <p>${escapeHtml(service.summary)}</p>
-                    <a class="text-link" href="${escapeHtml(service.href)}">
-                        Learn more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </div>
-            </article>
-        `;
+        <span class="service-card-inner">
+          <span class="photo-card-kicker">${escapeHtml(service.kicker || "Window Option")}</span>
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(text)}</p>
+          <span class="text-link">Explore</span>
+        </span>
+      </a>
+    `;
     }
 
     function renderServiceLists() {
-        qsa("[data-service-list]").forEach((mount) => {
-            const variant = mount.getAttribute("data-service-list") || "links";
+        document.querySelectorAll("[data-service-list]").forEach((mount) => {
+            const layout = mount.getAttribute("data-service-list") || "links";
 
-            if (variant === "select") {
+            if (layout === "compact") {
                 mount.innerHTML = config.services
                     .map((service) => {
-                        return `<option value="${escapeHtml(service.id)}">${escapeHtml(service.title)}</option>`;
+                        return `
+              <a class="service-list-compact-link" href="${escapeAttr(service.href)}">
+                <span class="icon-box">${serviceIcon(service.icon)}</span>
+                <span>
+                  <strong>${escapeHtml(service.title)}</strong>
+                  <small>${escapeHtml(service.summary)}</small>
+                </span>
+              </a>
+            `;
                     })
                     .join("");
                 return;
@@ -598,80 +430,83 @@
 
             mount.innerHTML = config.services
                 .map((service) => {
-                    return `
-                        <a class="service-list-link" href="${escapeHtml(service.href)}">
-                            <span aria-hidden="true">${getIcon(service.icon)}</span>
-                            <span>${escapeHtml(service.title)}</span>
-                        </a>
-                    `;
+                    return `<a href="${escapeAttr(service.href)}">${escapeHtml(service.title)}</a>`;
                 })
                 .join("");
         });
     }
 
-    /* ======================================================
+    function getServicesForMount(mount) {
+        const filter = mount.getAttribute("data-service-filter");
+        if (!filter) return config.services || [];
+
+        const ids = filter
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean);
+
+        return (config.services || []).filter((service) => ids.includes(service.id));
+    }
+
+    function getServiceByPage() {
+        const page = getCurrentPage();
+        return (config.services || []).find((service) => normalizePageRef(service.href) === page);
+    }
+
+    function isServicePage(page) {
+        return (config.services || []).some((service) => normalizePageRef(service.href) === page);
+    }
+
+    /* ========================================================
        FAQ
-       ====================================================== */
+       ======================================================== */
 
     function renderFaqBlocks() {
-        qsa("[data-faq-list]").forEach((mount) => {
-            const groupName = mount.getAttribute("data-faq-list") || "general";
-            const items = getFaqGroup(groupName);
+        document.querySelectorAll("[data-faq-list]").forEach((mount) => {
+            const key = mount.getAttribute("data-faq-list") || "home";
+            const items = getFaqItems(key);
 
             mount.innerHTML = items
-                .map((item, index) => createFaqItem(item, index, groupName))
+                .map((item, index) => {
+                    const id = `faq-${key}-${index + 1}`;
+
+                    return `
+            <article class="faq-item">
+              <button class="faq-button" type="button" aria-expanded="false" aria-controls="${escapeAttr(id)}">
+                <span>${escapeHtml(item.question)}</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+
+              <div class="faq-panel" id="${escapeAttr(id)}">
+                <div class="faq-panel-inner">
+                  <p>${escapeHtml(item.answer)}</p>
+                </div>
+              </div>
+            </article>
+          `;
+                })
                 .join("");
         });
     }
 
-    function createFaqItem(item, index, groupName) {
-        const buttonId = `faq-${groupName}-${index}-button`;
-        const panelId = `faq-${groupName}-${index}-panel`;
-
-        return `
-            <div class="faq-item">
-                <h3 class="faq-heading">
-                    <button class="faq-button" id="${buttonId}" type="button" aria-expanded="false" aria-controls="${panelId}">
-                        <span>${escapeHtml(item.question)}</span>
-                        <span class="faq-icon" aria-hidden="true"></span>
-                    </button>
-                </h3>
-
-                <div class="faq-panel" id="${panelId}" role="region" aria-labelledby="${buttonId}" hidden>
-                    <div class="faq-panel-inner">
-                        <p>${escapeHtml(item.answer)}</p>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
     function initFaqAccordions() {
-        qsa(".faq-button").forEach((button) => {
+        document.querySelectorAll(".faq-item").forEach((item) => {
+            const button = item.querySelector(".faq-button");
+            if (!button) return;
+
             button.addEventListener("click", () => {
-                const panelId = button.getAttribute("aria-controls");
-                const panel = document.getElementById(panelId);
+                const isOpen = item.classList.contains("is-open");
 
-                if (!panel) return;
-
-                const isOpen = button.getAttribute("aria-expanded") === "true";
-
+                item.classList.toggle("is-open", !isOpen);
                 button.setAttribute("aria-expanded", String(!isOpen));
-                panel.hidden = isOpen;
-
-                if (!isOpen) {
-                    panel.style.maxHeight = `${panel.scrollHeight}px`;
-                } else {
-                    panel.style.maxHeight = "0px";
-                }
             });
         });
     }
 
-    function renderFaqSchemaBlocks() {
-        qsa("[data-faq-schema]").forEach((mount) => {
-            const groupName = mount.getAttribute("data-faq-schema") || "general";
-            const items = getFaqGroup(groupName);
+    function renderFaqSchema() {
+        document.querySelectorAll("[data-faq-schema]").forEach((mount) => {
+            const key = mount.getAttribute("data-faq-schema") || mount.getAttribute("data-faq-list") || "home";
+            const items = getFaqItems(key);
 
             if (!items.length) return;
 
@@ -688,331 +523,339 @@
                 }))
             };
 
-            const script = document.createElement("script");
-            script.type = "application/ld+json";
+            let script = document.querySelector(`script[data-generated-faq-schema="${key}"]`);
+
+            if (!script) {
+                script = document.createElement("script");
+                script.type = "application/ld+json";
+                script.setAttribute("data-generated-faq-schema", key);
+                document.head.appendChild(script);
+            }
+
             script.textContent = JSON.stringify(schema);
-
-            mount.innerHTML = "";
-            mount.appendChild(script);
+            mount.setAttribute("aria-hidden", "true");
         });
     }
 
-    /* ======================================================
-       Cookie / policy banner
-       ====================================================== */
+    function getFaqItems(key) {
+        const service = getServiceByPage();
 
-    function renderPolicyBanner() {
-        const mount = qs(selectors.policyBanner);
-        const bannerConfig = config.cookieBanner;
-
-        if (!mount || !bannerConfig) return;
-
-        const savedChoice = localStorage.getItem(bannerConfig.storageKey);
-
-        if (savedChoice) {
-            mount.remove();
-            return;
+        if (key === "service" && service) {
+            return [
+                {
+                    question: `Does ${config.companyName} provide ${service.title.toLowerCase()} directly?`,
+                    answer:
+                        `${config.companyName} does not perform window work directly. The platform helps homeowners organize requests and compare independent provider options.`
+                },
+                {
+                    question: "What should I verify with a provider?",
+                    answer:
+                        "Verify licensing, insurance, quote details, project timeline, warranty terms, materials, product documentation, and provider credentials directly."
+                },
+                {
+                    question: "Does provider availability vary?",
+                    answer:
+                        "Yes. Availability can vary by ZIP code, service category, provider schedule, and project scope."
+                },
+                {
+                    question: "Can I compare more than one option?",
+                    answer:
+                        "Yes. Skylin is designed to help homeowners compare independent provider options before deciding how to move forward."
+                }
+            ];
         }
 
-        const links = bannerConfig.links
-            .map((link) => {
-                return `<a href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a>`;
-            })
-            .join("");
-
-        mount.innerHTML = `
-            <div class="policy-banner" role="dialog" aria-live="polite" aria-label="${escapeHtml(bannerConfig.title)}">
-                <div class="policy-banner-content">
-                    <strong>${escapeHtml(bannerConfig.title)}</strong>
-                    <p>${escapeHtml(bannerConfig.text)}</p>
-                    <div class="policy-banner-links">
-                        ${links}
-                    </div>
-                </div>
-
-                <div class="policy-banner-actions">
-                    <button class="button button-secondary" type="button" data-policy-choice="decline">
-                        ${escapeHtml(bannerConfig.decline)}
-                    </button>
-
-                    <button class="button button-primary" type="button" data-policy-choice="accept">
-                        ${escapeHtml(bannerConfig.accept)}
-                    </button>
-                </div>
-            </div>
-        `;
-
-        qsa("[data-policy-choice]", mount).forEach((button) => {
-            button.addEventListener("click", () => {
-                const choice = button.getAttribute("data-policy-choice");
-                localStorage.setItem(bannerConfig.storageKey, choice || "selected");
-                mount.remove();
-            });
-        });
-    }
-
-    /* ======================================================
-       Mobile menu
-       ====================================================== */
-
-    function initMobileMenu() {
-        const toggle = qs(".mobile-menu-toggle");
-        const closeButton = qs(".mobile-menu-close");
-        const menu = qs("[data-mobile-menu]");
-        const backdrop = qs("[data-mobile-menu-backdrop]");
-
-        if (!toggle || !menu || !backdrop) return;
-
-        toggle.addEventListener("click", openMobileMenu);
-
-        if (closeButton) {
-            closeButton.addEventListener("click", closeMobileMenu);
+        if (config.faq && Array.isArray(config.faq[key])) {
+            return config.faq[key];
         }
 
-        backdrop.addEventListener("click", closeMobileMenu);
-
-        qsa("a", menu).forEach((link) => {
-            link.addEventListener("click", closeMobileMenu);
-        });
-
-        document.addEventListener("keydown", (event) => {
-            if (!state.mobileMenuOpen) return;
-
-            if (event.key === "Escape") {
-                closeMobileMenu();
-                return;
-            }
-
-            if (event.key === "Tab") {
-                trapFocus(event, menu);
-            }
-        });
+        return (config.faq && config.faq.home) || [];
     }
 
-    function openMobileMenu() {
-        const toggle = qs(".mobile-menu-toggle");
-        const menu = qs("[data-mobile-menu]");
-        const backdrop = qs("[data-mobile-menu-backdrop]");
-        const closeButton = qs(".mobile-menu-close");
-
-        if (!toggle || !menu || !backdrop) return;
-
-        state.lastFocusedElement = document.activeElement;
-        state.mobileMenuOpen = true;
-
-        document.body.classList.add("menu-open");
-        toggle.setAttribute("aria-expanded", "true");
-        toggle.setAttribute("aria-label", "Close menu");
-
-        backdrop.hidden = false;
-        menu.removeAttribute("inert");
-
-        requestAnimationFrame(() => {
-            menu.classList.add("is-open");
-            backdrop.classList.add("is-visible");
-        });
-
-        if (closeButton) {
-            setTimeout(() => closeButton.focus(), 40);
-        }
-    }
-
-    function closeMobileMenu() {
-        const toggle = qs(".mobile-menu-toggle");
-        const menu = qs("[data-mobile-menu]");
-        const backdrop = qs("[data-mobile-menu-backdrop]");
-
-        if (!toggle || !menu || !backdrop) return;
-
-        state.mobileMenuOpen = false;
-
-        document.body.classList.remove("menu-open");
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.setAttribute("aria-label", "Open menu");
-
-        menu.classList.remove("is-open");
-        backdrop.classList.remove("is-visible");
-        menu.setAttribute("inert", "");
-
-        setTimeout(() => {
-            if (!state.mobileMenuOpen) {
-                backdrop.hidden = true;
-            }
-        }, 260);
-
-        if (state.lastFocusedElement && typeof state.lastFocusedElement.focus === "function") {
-            state.lastFocusedElement.focus();
-        }
-    }
-
-    function trapFocus(event, container) {
-        const focusable = getFocusableElements(container);
-
-        if (!focusable.length) return;
-
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault();
-            first.focus();
-        }
-    }
-
-    /* ======================================================
+    /* ========================================================
        Forms
-       ====================================================== */
+       ======================================================== */
+
+    function renderFormModules() {
+        document.querySelectorAll("[data-form-module]").forEach((mount) => {
+            const key = mount.getAttribute("data-form-module") || "default";
+            const formConfig = getFormConfig(key);
+
+            mount.innerHTML = `
+        <div class="form-module">
+          <div class="form-inner">
+            <div class="form-heading">
+              <span class="section-kicker">Provider Matching</span>
+              <h2>${escapeHtml(formConfig.title)}</h2>
+              <p>${escapeHtml(formConfig.intro)}</p>
+            </div>
+
+            ${renderRequestForm(key)}
+          </div>
+        </div>
+      `;
+        });
+    }
+
+    function renderRequestForm(key) {
+        const formConfig = getFormConfig(key);
+
+        return `
+      <form class="request-form" data-request-form novalidate>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="${escapeAttr(key)}-name">${escapeHtml(formConfig.nameLabel)}</label>
+            <input id="${escapeAttr(key)}-name" name="name" type="text" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="${escapeAttr(key)}-email">${escapeHtml(formConfig.emailLabel)}</label>
+            <input id="${escapeAttr(key)}-email" name="email" type="email" autocomplete="email" required>
+          </div>
+
+          <div class="form-field">
+            <label for="${escapeAttr(key)}-phone">${escapeHtml(formConfig.phoneLabel)}</label>
+            <input id="${escapeAttr(key)}-phone" name="phone" type="tel" autocomplete="tel" required>
+          </div>
+
+          <div class="form-field">
+            <label for="${escapeAttr(key)}-zip">${escapeHtml(formConfig.zipLabel)}</label>
+            <input id="${escapeAttr(key)}-zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" required>
+          </div>
+
+          <div class="form-field full">
+            <label for="${escapeAttr(key)}-service">${escapeHtml(formConfig.serviceLabel)}</label>
+            <select id="${escapeAttr(key)}-service" name="service" required>
+              <option value="">Select a window option</option>
+              ${config.services
+                .map((service) => {
+                    return `<option value="${escapeAttr(service.id)}">${escapeHtml(service.title)}</option>`;
+                })
+                .join("")}
+            </select>
+          </div>
+
+          <div class="form-field full">
+            <label for="${escapeAttr(key)}-message">${escapeHtml(formConfig.messageLabel)}</label>
+            <textarea id="${escapeAttr(key)}-message" name="message" rows="4"></textarea>
+          </div>
+        </div>
+
+        <label class="checkbox-field">
+          <input type="checkbox" name="consent" required>
+          <span class="checkbox-visual" aria-hidden="true"></span>
+          <span>${escapeHtml(formConfig.consentLabel)}</span>
+        </label>
+
+        <button class="btn form-submit" type="submit">
+          ${escapeHtml(formConfig.submitLabel)}
+          <span class="arrow">→</span>
+        </button>
+
+        <div class="form-message" role="status" aria-live="polite"></div>
+      </form>
+    `;
+    }
 
     function initForms() {
-        qsa("[data-skylin-form]").forEach((form) => {
-            form.setAttribute("novalidate", "");
+        document.querySelectorAll("[data-request-form]").forEach((form) => {
+            const message = form.querySelector(".form-message");
+            const formConfig = getFormConfig(form.closest("[data-form-module]")?.getAttribute("data-form-module") || "default");
 
             form.addEventListener("submit", (event) => {
                 event.preventDefault();
 
-                const isValid = validateForm(form);
+                const requiredFields = Array.from(form.querySelectorAll("[required]"));
+                const invalidField = requiredFields.find((field) => {
+                    if (field.type === "checkbox") return !field.checked;
+                    return !String(field.value || "").trim();
+                });
 
-                if (!isValid) return;
+                if (invalidField) {
+                    showFormMessage(message, formConfig.errorMessage, true);
+                    invalidField.focus();
+                    return;
+                }
 
-                showFormSuccess(form);
-            });
+                const emailField = form.querySelector('input[type="email"]');
+                if (emailField && emailField.value && !isValidEmail(emailField.value)) {
+                    showFormMessage(message, "Please enter a valid email address.", true);
+                    emailField.focus();
+                    return;
+                }
 
-            qsa("input, select, textarea", form).forEach((field) => {
-                field.addEventListener("input", () => clearFieldError(field));
-                field.addEventListener("change", () => clearFieldError(field));
+                form.reset();
+                showFormMessage(message, `${formConfig.successTitle} ${formConfig.successMessage}`, false);
             });
         });
     }
 
-    function validateForm(form) {
-        let isValid = true;
+    function showFormMessage(message, text, isError) {
+        if (!message) return;
 
-        qsa("[required]", form).forEach((field) => {
-            const type = field.getAttribute("type");
-            const value = String(field.value || "").trim();
+        message.textContent = text;
+        message.classList.add("is-visible");
+        message.classList.toggle("is-error", Boolean(isError));
+    }
 
-            if (type === "checkbox") {
-                if (!field.checked) {
-                    setFieldError(field, "This field is required.");
-                    isValid = false;
-                }
-                return;
-            }
+    function getFormConfig(key) {
+        const defaults = config.forms.default || {};
+        const selected = config.forms[key] || {};
 
-            if (!value) {
-                setFieldError(field, "This field is required.");
-                isValid = false;
-                return;
-            }
-
-            if (type === "email" && !isValidEmail(value)) {
-                setFieldError(field, "Please enter a valid email address.");
-                isValid = false;
-            }
-        });
-
-        const status = qs("[data-form-status]", form);
-
-        if (status && !isValid) {
-            status.textContent = config.forms.contact.errorMessage;
-            status.classList.add("is-error");
-            status.classList.remove("is-success");
-        }
-
-        return isValid;
+        return {
+            ...defaults,
+            ...selected
+        };
     }
 
     function isValidEmail(value) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
     }
 
-    function setFieldError(field, message) {
-        const wrapper = field.closest(".form-field") || field.closest(".checkbox-field");
+    /* ========================================================
+       Cookie / Policy Banner
+       ======================================================== */
 
-        field.setAttribute("aria-invalid", "true");
+    function renderPolicyBanner() {
+        const mounts = document.querySelectorAll("[data-policy-banner]");
+        if (!mounts.length || !config.cookieBanner) return;
 
-        if (wrapper) {
-            wrapper.classList.add("has-error");
+        mounts.forEach((mount) => {
+            mount.innerHTML = `
+        <section class="policy-banner" data-policy-banner-panel aria-label="Privacy and cookie preferences">
+          <div class="policy-banner-content">
+            <h2>${escapeHtml(config.cookieBanner.title)}</h2>
+            <p>${escapeHtml(config.cookieBanner.text)}</p>
 
-            let error = qs(".field-error", wrapper);
+            <div class="policy-banner-links">
+              ${config.cookieBanner.links
+                    .map((link) => {
+                        return `<a href="${escapeAttr(link.href)}">${escapeHtml(link.label)}</a>`;
+                    })
+                    .join("")}
+            </div>
+          </div>
 
-            if (!error) {
-                error = document.createElement("small");
-                error.className = "field-error";
-                wrapper.appendChild(error);
+          <div class="policy-banner-actions">
+            <button class="btn btn-secondary" type="button" data-policy-decline>
+              ${escapeHtml(config.cookieBanner.decline)}
+            </button>
+
+            <button class="btn" type="button" data-policy-accept>
+              ${escapeHtml(config.cookieBanner.accept)}
+            </button>
+          </div>
+        </section>
+      `;
+        });
+
+        initPolicyBanner();
+    }
+
+    function initPolicyBanner() {
+        const key = config.cookieBanner.storageKey || "site_policy_choice";
+        const banner = document.querySelector("[data-policy-banner-panel]");
+        if (!banner) return;
+
+        const stored = localStorage.getItem(key);
+
+        if (!stored) {
+            banner.classList.add("is-visible");
+        }
+
+        document.querySelectorAll("[data-policy-accept], [data-policy-decline]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const value = button.hasAttribute("data-policy-accept") ? "accepted" : "declined";
+                localStorage.setItem(key, value);
+                banner.classList.remove("is-visible");
+            });
+        });
+    }
+
+    /* ========================================================
+       Mobile Menu
+       ======================================================== */
+
+    function initMobileMenu() {
+        const menu = document.querySelector("[data-mobile-menu]");
+        const backdrop = document.querySelector("[data-mobile-backdrop]");
+        const openButton = document.querySelector("[data-mobile-open]");
+        const closeButton = document.querySelector("[data-mobile-close]");
+        const links = document.querySelectorAll("[data-mobile-link]");
+
+        if (!menu || !backdrop || !openButton || !closeButton) return;
+
+        function openMenu() {
+            document.body.classList.add("menu-open");
+            menu.classList.add("is-open");
+            backdrop.classList.add("is-open");
+            menu.removeAttribute("inert");
+            openButton.setAttribute("aria-expanded", "true");
+
+            window.setTimeout(() => {
+                closeButton.focus();
+            }, 80);
+        }
+
+        function closeMenu() {
+            document.body.classList.remove("menu-open");
+            menu.classList.remove("is-open");
+            backdrop.classList.remove("is-open");
+            menu.setAttribute("inert", "");
+            openButton.setAttribute("aria-expanded", "false");
+            openButton.focus();
+        }
+
+        openButton.addEventListener("click", openMenu);
+        closeButton.addEventListener("click", closeMenu);
+        backdrop.addEventListener("click", closeMenu);
+
+        links.forEach((link) => {
+            link.addEventListener("click", () => {
+                if (menu.classList.contains("is-open")) {
+                    closeMenu();
+                }
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && menu.classList.contains("is-open")) {
+                closeMenu();
             }
-
-            error.textContent = message;
-        }
-    }
-
-    function clearFieldError(field) {
-        const wrapper = field.closest(".form-field") || field.closest(".checkbox-field");
-
-        field.removeAttribute("aria-invalid");
-
-        if (wrapper) {
-            wrapper.classList.remove("has-error");
-
-            const error = qs(".field-error", wrapper);
-
-            if (error) {
-                error.textContent = "";
-            }
-        }
-
-        const form = field.closest("form");
-        const status = form ? qs("[data-form-status]", form) : null;
-
-        if (status) {
-            status.textContent = "";
-            status.classList.remove("is-error", "is-success");
-        }
-    }
-
-    function showFormSuccess(form) {
-        const status = qs("[data-form-status]", form);
-
-        if (status) {
-            status.textContent = config.forms.contact.successMessage;
-            status.classList.add("is-success");
-            status.classList.remove("is-error");
-        }
-
-        form.reset();
-
-        qsa("[aria-invalid]", form).forEach((field) => {
-            field.removeAttribute("aria-invalid");
-        });
-
-        qsa(".has-error", form).forEach((element) => {
-            element.classList.remove("has-error");
-        });
-
-        qsa(".field-error", form).forEach((element) => {
-            element.textContent = "";
         });
     }
 
-    /* ======================================================
+    /* ========================================================
+       Header Scroll
+       ======================================================== */
+
+    function initHeaderScroll() {
+        const header = document.querySelector("[data-header]");
+        if (!header) return;
+
+        function updateHeader() {
+            header.classList.toggle("is-scrolled", window.scrollY > 12);
+        }
+
+        updateHeader();
+        window.addEventListener("scroll", updateHeader, { passive: true });
+    }
+
+    /* ========================================================
        Counters
-       ====================================================== */
+       ======================================================== */
 
     function initCounters() {
-        const counters = qsa("[data-count-to]");
-
+        const counters = document.querySelectorAll("[data-counter]");
         if (!counters.length) return;
 
         const observer = new IntersectionObserver(
-            (entries, currentObserver) => {
+            (entries, obs) => {
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting) return;
 
                     animateCounter(entry.target);
-                    currentObserver.unobserve(entry.target);
+                    obs.unobserve(entry.target);
                 });
             },
             {
@@ -1024,176 +867,227 @@
     }
 
     function animateCounter(element) {
-        const target = parseFloat(element.getAttribute("data-count-to") || "0");
-        const decimals = Number(element.getAttribute("data-count-decimals") || "0");
-        const duration = Number(element.getAttribute("data-count-duration") || "1300");
+        const end = Number(element.getAttribute("data-counter") || "0");
+        const duration = 1100;
         const startTime = performance.now();
 
         function update(now) {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
+            const progress = Math.min((now - startTime) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            const value = target * eased;
+            const value = Math.round(end * eased);
 
-            element.textContent = value.toFixed(decimals);
+            element.textContent = String(value);
 
             if (progress < 1) {
                 requestAnimationFrame(update);
             } else {
-                element.textContent = target.toFixed(decimals);
+                element.textContent = String(end);
             }
         }
 
         requestAnimationFrame(update);
     }
 
-    /* ======================================================
-       Header offset / resize
-       ====================================================== */
+    /* ========================================================
+       Helpers
+       ======================================================== */
 
-    function setHeaderOffset() {
-        const header = qs("[data-header]");
-
-        if (!header) return;
-
-        const height = header.offsetHeight;
-        document.documentElement.style.setProperty("--header-height", `${height}px`);
+    function getCurrentPage() {
+        const path = window.location.pathname.split("/").pop();
+        return path || "index.html";
     }
 
-    function watchResize() {
-        window.addEventListener("resize", () => {
-            setHeaderOffset();
+    function normalizePageRef(value) {
+        if (!value) return "index.html";
 
-            if (window.innerWidth >= 1024 && state.mobileMenuOpen) {
-                closeMobileMenu();
-            }
+        const clean = String(value).split("#")[0].split("?")[0];
+        const page = clean.split("/").pop();
+
+        return page || "index.html";
+    }
+
+    function preventEmptyLinks() {
+        document.querySelectorAll('a[href="#"]').forEach((link) => {
+            link.addEventListener("click", (event) => event.preventDefault());
         });
     }
 
-    function preventOverflowHelpers() {
-        document.documentElement.classList.add("js-ready");
-
-        qsa("img").forEach((image) => {
-            image.addEventListener("error", () => {
-                image.classList.add("image-missing");
-                console.warn("Missing image:", image.getAttribute("src"));
-            });
-        });
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
     }
 
-    /* ======================================================
-       Icons
-       ====================================================== */
+    function escapeAttr(value) {
+        return escapeHtml(value);
+    }
 
-    function getIcon(name) {
-        const icons = {
-            "logo-window": `
-                <svg viewBox="0 0 44 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 2H18L22 6L26 2H42V30H26L22 26L18 30H2V2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    <path d="M18 3V29" stroke="currentColor" stroke-width="1.6"/>
-                    <path d="M26 3V29" stroke="currentColor" stroke-width="1.6"/>
-                    <path d="M6 8H15" stroke="currentColor" stroke-width="1.4"/>
-                    <path d="M29 8H38" stroke="currentColor" stroke-width="1.4"/>
-                </svg>
-            `,
+    function chevronDown() {
+        return `
+      <svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `;
+    }
 
-            "window-frame": `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 3H20V21H4V3Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M12 3V21" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M4 12H20" stroke="currentColor" stroke-width="1.7"/>
-                </svg>
-            `,
+    function renderLogoMark() {
+        return `
+      <span class="site-logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+          <path class="logo-line" d="M8 15L25 8V56L8 49V15Z" fill="none" stroke="#00C2FF" stroke-width="2.4" stroke-linejoin="round"/>
+          <path class="logo-line" d="M56 15L39 8V56L56 49V15Z" fill="none" stroke="#00C2FF" stroke-width="2.4" stroke-linejoin="round"/>
+          <path class="logo-accent" d="M25 13L32 17L39 13" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+          <path class="logo-accent" d="M25 51L32 47L39 51" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+          <path class="logo-line" d="M32 17V47" fill="none" stroke="#00C2FF" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+    `;
+    }
 
-            replace: `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 4H14V14H4V4Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M10 10H20V20H10V10Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M16.5 4.5H19.5V7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M19.5 4.5L15 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            tool: `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M14.5 5.2C15.8 3.9 17.8 3.6 19.4 4.4L16.6 7.2L16.8 9.2L18.8 9.4L21.6 6.6C22.4 8.2 22.1 10.2 20.8 11.5C19.6 12.7 17.9 13.1 16.4 12.7L8.2 20.9C7.4 21.7 6.1 21.7 5.3 20.9L3.1 18.7C2.3 17.9 2.3 16.6 3.1 15.8L11.3 7.6C10.9 6.1 11.3 4.4 12.5 3.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            "leaf-window": `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 3H14V13H4V3Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M9 3V13" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M4 8H14" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M16 20C20.2 18.8 21 15.1 20.8 11.2C17 11.2 14.2 12.8 13.5 16.1C13.1 18 14.1 19.4 16 20Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M13.8 19.8C15.2 17.5 17.1 15.8 20.2 14.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            phone: `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M8.1 4.5L10 8.8L8.7 10.1C9.7 12.2 11.8 14.3 13.9 15.3L15.2 14L19.5 15.9V19.2C19.5 20.1 18.8 20.8 17.9 20.8C9.8 20.8 3.2 14.2 3.2 6.1C3.2 5.2 3.9 4.5 4.8 4.5H8.1Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            mail: `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M3.5 6.5H20.5V18H3.5V6.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M4 7L12 13L20 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            "map-pin": `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 21C12 21 18 15.4 18 9.8C18 6.5 15.3 4 12 4C8.7 4 6 6.5 6 9.8C6 15.4 12 21 12 21Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M12 12.2C13.2 12.2 14.2 11.2 14.2 10C14.2 8.8 13.2 7.8 12 7.8C10.8 7.8 9.8 8.8 9.8 10C9.8 11.2 10.8 12.2 12 12.2Z" stroke="currentColor" stroke-width="1.7"/>
-                </svg>
-            `,
-
-            timer: `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 21C16.4 21 20 17.4 20 13C20 8.6 16.4 5 12 5C7.6 5 4 8.6 4 13C4 17.4 7.6 21 12 21Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M9 2.8H15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                    <path d="M12 9V13L15 14.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            "clipboard-check": `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M8 4H16L17 6H20V21H4V6H7L8 4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M8.5 13L11 15.5L15.8 10.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            target: `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 21C17 21 21 17 21 12C21 7 17 3 12 3C7 3 3 7 3 12C3 17 7 21 12 21Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M12 16C14.2 16 16 14.2 16 12C16 9.8 14.2 8 12 8C9.8 8 8 9.8 8 12C8 14.2 9.8 16 12 16Z" stroke="currentColor" stroke-width="1.7"/>
-                    <path d="M12 12H21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-            `,
-
-            "badge-check": `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 3L14.2 5.1L17.2 4.8L18 7.8L20.6 9.4L19.4 12L20.6 14.6L18 16.2L17.2 19.2L14.2 18.9L12 21L9.8 18.9L6.8 19.2L6 16.2L3.4 14.6L4.6 12L3.4 9.4L6 7.8L6.8 4.8L9.8 5.1L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="M8.8 12L11 14.2L15.4 9.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            "chevron-down": `
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `,
-
-            close: `
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                    <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-            `
+    function serviceIcon(type) {
+        const map = {
+            window: icon("window"),
+            replace: icon("refresh"),
+            repair: icon("tool"),
+            energy: icon("spark")
         };
 
-        return icons[name] || icons["window-frame"];
+        return map[type] || icon("window");
+    }
+
+    function icon(name) {
+        const icons = {
+            phone: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.45 19.45 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.79a2 2 0 0 1-.45 2.11L8.05 9.89a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45c.89.31 1.83.53 2.79.66A2 2 0 0 1 22 16.92Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            mail: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="m22 7-10 6L2 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            map: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 21s7-5.2 7-12a7 7 0 0 0-14 0c0 6.8 7 12 7 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="12" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      `,
+            x: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      `,
+            window: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 4h16v16H4V4Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 4v16M4 12h16" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      `,
+            refresh: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 11a8 8 0 0 0-14.2-4.9L4 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 4v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 13a8 8 0 0 0 14.2 4.9L20 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20 20v-4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            tool: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14.7 6.3a4 4 0 0 0 5 5L11 20a2.1 2.1 0 0 1-3-3l8.7-8.7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 4 20 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            spark: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13 2 4 14h7l-1 8 10-13h-7l0-7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      `,
+            clipboard: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 4h6l1 2h3v15H5V6h3l1-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            layout: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 5h16v14H4V5Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M4 10h16M10 10v9" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      `,
+            network: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="6" cy="7" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="18" cy="7" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="17" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="m8.2 8.5 2.5 6M15.8 8.5l-2.5 6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      `,
+            compare: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 7h12M5 17h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="m15 4 4 3-4 3M9 14l-4 3 4 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            check: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            target: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            shield: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="m9 12 2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            clock: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            badge: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 4h8l3 5-7 11L5 9l3-5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="m9.5 11 1.8 1.8L15 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `,
+            layers: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m12 3 9 5-9 5-9-5 9-5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="m3 12 9 5 9-5M3 16l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      `,
+            calendar: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 4h14v16H5V4Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M8 2v4M16 2v4M5 9h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            file: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 3h7l4 4v14H7V3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M14 3v5h5M9 13h6M9 17h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      `,
+            star: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      `
+        };
+
+        return icons[name] || icons.check;
     }
 })();
