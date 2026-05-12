@@ -2268,3 +2268,179 @@ p {
     }
 }
 
+/* ==========================================================
+   Tablet + mobile hero alignment
+   Center hero headings and content evenly across all pages
+   ========================================================== */
+
+@media (max-width: 1180px) {
+
+    :is(.home-hero,
+        .services-hero,
+        .about-hero,
+        .contact-hero,
+        .service-detail-hero,
+        .legal-hero) {
+        align-items: center;
+    }
+
+    :is(.services-hero-inner,
+        .about-hero-inner,
+        .contact-hero-inner,
+        .service-detail-hero-inner,
+        .legal-hero-inner) {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        align-items: center;
+        text-align: center;
+        padding-block: clamp(120px, 15vw, 160px) clamp(70px, 9vw, 100px);
+    }
+
+    .home-hero-inner {
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        min-height: calc(100svh - var(--header-height));
+        padding-block: clamp(120px, 15vw, 160px) clamp(110px, 13vw, 140px);
+    }
+
+    .hero-main {
+        width: min(100%, 920px);
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        text-align: center;
+        gap: clamp(22px, 4vw, 38px);
+        margin-inline: auto;
+    }
+
+    :is(.hero-copy,
+        .services-hero-copy,
+        .about-hero-copy,
+        .contact-hero-copy,
+        .service-detail-hero-copy,
+        .legal-hero-inner) {
+        justify-items: center;
+        text-align: center;
+        margin-inline: auto;
+    }
+
+    :is(.hero-copy,
+        .services-hero-copy,
+        .about-hero-copy,
+        .contact-hero-copy,
+        .service-detail-hero-copy) h1,
+    .legal-hero h1 {
+        max-width: min(920px, 12.5ch);
+        margin-inline: auto;
+        text-align: center;
+        text-wrap: balance;
+    }
+
+    :is(.hero-copy,
+        .services-hero-copy,
+        .about-hero-copy,
+        .contact-hero-copy,
+        .service-detail-hero-copy,
+        .legal-hero-inner) p {
+        max-width: 680px;
+        margin-inline: auto;
+        text-align: center;
+    }
+
+    :is(.hero-actions,
+        .about-collage-actions,
+        .service-detail-intro-actions) {
+        justify-content: center;
+    }
+
+    :is(.hero-visual-note,
+        .services-hero-panel,
+        .about-hero-card,
+        .contact-hero-panel,
+        .service-detail-hero-panel) {
+        width: min(100%, 620px);
+        margin-inline: auto;
+        text-align: center;
+        justify-items: center;
+    }
+
+    .hero-side-rail {
+        display: none;
+    }
+}
+
+/* Mobile refinement */
+@media (max-width: 640px) {
+
+    :is(.services-hero-inner,
+        .about-hero-inner,
+        .contact-hero-inner,
+        .service-detail-hero-inner,
+        .legal-hero-inner) {
+        padding-block: 106px 58px;
+    }
+
+    .home-hero-inner {
+        min-height: auto;
+        padding-block: 104px 98px;
+    }
+
+    .hero-main {
+        gap: 20px;
+        padding-top: 0;
+    }
+
+    :is(.hero-copy,
+        .services-hero-copy,
+        .about-hero-copy,
+        .contact-hero-copy,
+        .service-detail-hero-copy) {
+        gap: 16px;
+    }
+
+    :is(.hero-copy,
+        .services-hero-copy,
+        .about-hero-copy,
+        .contact-hero-copy,
+        .service-detail-hero-copy) h1,
+    .legal-hero h1 {
+        max-width: 100%;
+        font-size: clamp(2.25rem, 10.8vw, 3.65rem);
+        line-height: 0.98;
+        letter-spacing: -0.052em;
+    }
+
+    :is(.hero-copy,
+        .services-hero-copy,
+        .about-hero-copy,
+        .contact-hero-copy,
+        .service-detail-hero-copy,
+        .legal-hero-inner) p {
+        max-width: 94%;
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+
+    .hero-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+        gap: 10px;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    :is(.hero-visual-note,
+        .services-hero-panel,
+        .about-hero-card,
+        .contact-hero-panel,
+        .service-detail-hero-panel) {
+        width: 100%;
+        padding: 18px;
+    }
+}
