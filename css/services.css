@@ -1018,3 +1018,306 @@
          padding: 8px 0;
      }
  }
+
+ /* ==========================================================
+   Editorial checklist — hover for each item
+   ========================================================== */
+
+ .editorial-checklist li {
+     position: relative;
+     min-height: 46px;
+     padding: 10px 12px 10px 0;
+     border-bottom: 1px solid rgba(17, 20, 23, 0.1);
+     transition:
+         transform var(--transition-base),
+         background var(--transition-base),
+         border-color var(--transition-base),
+         color var(--transition-base);
+ }
+
+ .editorial-checklist li:last-child {
+     border-bottom: 0;
+ }
+
+ .editorial-checklist li::before {
+     transition:
+         transform var(--transition-base),
+         background var(--transition-base),
+         box-shadow var(--transition-base);
+ }
+
+ .editorial-checklist li:hover {
+     transform: translateX(6px);
+     background: rgba(0, 157, 255, 0.055);
+     border-color: rgba(0, 157, 255, 0.22);
+ }
+
+ .editorial-checklist li:hover::before {
+     transform: translateY(-1px) scale(1.08);
+     background: var(--color-accent-deep);
+     box-shadow: 0 0 18px rgba(0, 157, 255, 0.24);
+ }
+
+ .editorial-checklist li:hover {
+     color: var(--color-text-dark);
+ }
+
+ /* Mobile: hover calmer */
+ @media (max-width: 640px) {
+     .editorial-checklist li {
+         padding-block: 9px;
+     }
+
+     .editorial-checklist li:hover {
+         transform: translateX(3px);
+     }
+ }
+
+ /* ==========================================================
+   Tablet services frame section — square cards, 2 per row
+   ========================================================== */
+
+ @media (min-width: 641px) and (max-width: 1180px) {
+     .services-frame-section .window-frame-grid {
+         grid-template-columns: repeat(2, minmax(0, 1fr));
+         grid-template-rows: none;
+     }
+
+     .services-frame-section .window-frame-cell,
+     .services-frame-section .window-frame-cell.large,
+     .services-frame-section .window-frame-cell.wide {
+         grid-column: auto;
+         grid-row: auto;
+         min-height: 0;
+         aspect-ratio: 1 / 1;
+     }
+
+     .services-frame-section .window-frame-cell {
+         align-content: end;
+         padding: clamp(20px, 3vw, 30px);
+     }
+
+     .services-frame-section .window-frame-cell h3 {
+         font-size: clamp(1.35rem, 3vw, 2.25rem);
+     }
+
+     .services-frame-section .window-frame-cell p {
+         font-size: 0.86rem;
+         line-height: 1.45;
+     }
+ }
+
+ /* Tablet services frame section — small gap between square cards */
+ @media (min-width: 641px) and (max-width: 1180px) {
+     .services-frame-section .window-frame-grid {
+         gap: 12px;
+         border-top: 0;
+         border-left: 0;
+     }
+
+     .services-frame-section .window-frame-cell,
+     .services-frame-section .window-frame-cell.large,
+     .services-frame-section .window-frame-cell.wide {
+         border: 1px solid var(--color-border-dark);
+     }
+ }
+
+ /* ==========================================================
+   Mobile services frame section — cleaner spacing, equal cards,
+   darker photo overlay, balanced content
+   ========================================================== */
+
+ @media (max-width: 640px) {
+     .services-frame-section .window-frame-grid {
+         display: grid;
+         grid-template-columns: 1fr;
+         gap: 12px;
+         border-top: 0;
+         border-left: 0;
+     }
+
+     .services-frame-section .window-frame-cell,
+     .services-frame-section .window-frame-cell.large,
+     .services-frame-section .window-frame-cell.wide {
+         min-height: 310px;
+         aspect-ratio: auto;
+         padding: 68px 18px 18px;
+         border: 1px solid var(--color-border-dark);
+         display: grid;
+         grid-template-rows: auto minmax(78px, 1fr) auto;
+         align-content: stretch;
+         gap: 10px;
+     }
+
+     .services-frame-section .window-frame-cell.photo::before {
+         background:
+             linear-gradient(180deg, rgba(7, 9, 11, 0.38), rgba(7, 9, 11, 0.92)),
+             linear-gradient(90deg, rgba(7, 9, 11, 0.62), rgba(7, 9, 11, 0.24));
+     }
+
+     .services-frame-section .window-frame-cell h3 {
+         align-self: end;
+         max-width: 92%;
+         font-size: clamp(1.35rem, 7vw, 2rem);
+         line-height: 0.98;
+         text-shadow: 0 12px 32px rgba(0, 0, 0, 0.52);
+     }
+
+     .services-frame-section .window-frame-cell p {
+         align-self: start;
+         max-width: 94%;
+         min-height: 64px;
+         font-size: 0.82rem;
+         line-height: 1.42;
+         color: rgba(255, 255, 255, 0.82);
+         text-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+     }
+
+     .services-frame-section .window-frame-cell .text-link {
+         align-self: end;
+         width: fit-content;
+         margin-top: auto;
+         text-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+     }
+
+     .services-frame-section .window-frame-cell .icon-box {
+         top: 18px;
+         left: 18px;
+         width: 40px;
+         height: 40px;
+         background: rgba(7, 9, 11, 0.64);
+         border-color: rgba(0, 194, 255, 0.4);
+         backdrop-filter: blur(12px);
+     }
+
+     .services-frame-section .window-frame-cell .icon-box svg {
+         width: 18px;
+         height: 18px;
+     }
+
+     .services-frame-section .window-frame-cell-number {
+         top: 20px;
+         right: 18px;
+         color: rgba(255, 255, 255, 0.72);
+         text-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+     }
+ }
+
+ @media (max-width: 390px) {
+     .services-frame-section .window-frame-grid {
+         gap: 10px;
+     }
+
+     .services-frame-section .window-frame-cell,
+     .services-frame-section .window-frame-cell.large,
+     .services-frame-section .window-frame-cell.wide {
+         min-height: 292px;
+         padding: 62px 16px 16px;
+     }
+
+     .services-frame-section .window-frame-cell p {
+         min-height: 58px;
+         font-size: 0.78rem;
+     }
+ }
+
+ /* ==========================================================
+   Tablet + mobile services lens cards
+   Compact height, icon on the right
+   ========================================================== */
+
+ @media (max-width: 1180px) {
+     .services-lens-grid {
+         gap: 10px;
+     }
+
+     .services-lens-card {
+         min-height: auto;
+         display: grid;
+         grid-template-columns: minmax(0, 1fr) auto;
+         grid-template-areas:
+             "title icon"
+             "text icon";
+         align-items: center;
+         gap: 6px 14px;
+         padding: 16px 18px;
+     }
+
+     .services-lens-card .icon-box {
+         grid-area: icon;
+         width: 42px;
+         height: 42px;
+         flex: 0 0 42px;
+     }
+
+     .services-lens-card .icon-box svg {
+         width: 19px;
+         height: 19px;
+     }
+
+     .services-lens-card h3 {
+         grid-area: title;
+         font-size: 1rem;
+         line-height: 1.18;
+     }
+
+     .services-lens-card p {
+         grid-area: text;
+         max-width: 100%;
+         font-size: 0.8rem;
+         line-height: 1.38;
+     }
+
+     .services-lens-card::before {
+         left: 18px;
+         width: 54px;
+     }
+ }
+
+ @media (max-width: 640px) {
+     .services-lens-grid {
+         gap: 8px;
+     }
+
+     .services-lens-card {
+         padding: 13px 14px;
+         gap: 5px 12px;
+     }
+
+     .services-lens-card .icon-box {
+         width: 38px;
+         height: 38px;
+         flex-basis: 38px;
+     }
+
+     .services-lens-card .icon-box svg {
+         width: 17px;
+         height: 17px;
+     }
+
+     .services-lens-card h3 {
+         font-size: 0.92rem;
+     }
+
+     .services-lens-card p {
+         font-size: 0.76rem;
+         line-height: 1.34;
+     }
+ }
+
+ @media (max-width: 390px) {
+     .services-lens-card {
+         padding: 12px;
+     }
+
+     .services-lens-card .icon-box {
+         width: 34px;
+         height: 34px;
+         flex-basis: 34px;
+     }
+
+     .services-lens-card .icon-box svg {
+         width: 16px;
+         height: 16px;
+     }
+ }
