@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Skylin | Window Provider Matching Platform</title>
+    <meta name="description"
+        content="Learn how Skylin helps homeowners compare independent local window providers while staying clear about its platform role.">
+
+    <link rel="icon" type="image/svg+xml" href="./assets/icons/favicon.svg">
+    <link rel="shortcut icon" href="./assets/icons/favicon.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body class="about-page">
+    <div data-site-header></div>
+
+    <main id="main">
+        <section class="about-hero" aria-labelledby="aboutHeroTitle">
+            <div class="about-hero-bg" aria-hidden="true">
+                <img src="./assets/images/hero-about.jpg" alt="">
+            </div>
+
+            <div class="container-wide about-hero-grid">
+                <div class="about-hero-content">
+                    <span class="eyebrow">About the platform</span>
+
+                    <h1 id="aboutHeroTitle">
+                        Built for clearer window provider comparison.
+                    </h1>
+
+                    <p>
+                        <span data-company-name></span> helps homeowners organize window project requests and compare
+                        independent local provider options across the United States.
+                    </p>
+
+                    <div class="about-hero-actions">
+                        <a class="button button-primary" href="contact.html">
+                            Request Provider Options
+                        </a>
+
+                        <a class="button button-secondary" href="#how-skylin-works">
+                            How It Works
+                        </a>
+                    </div>
+                </div>
+
+                <aside class="about-hero-check" aria-label="Platform fit checker">
+                    <div class="about-check-frame" aria-hidden="true"></div>
+
+                    <form class="about-check-card" data-skylin-form>
+                        <span class="about-check-kicker">Quick clarity check</span>
+
+                        <h2>
+                            What kind of window help are you comparing?
+                        </h2>
+
+                        <p>
+                            This compact request check helps frame your project before comparing provider options.
+                        </p>
+
+                        <div class="about-check-row">
+                            <div class="form-field">
+                                <label for="aboutCheckZip">ZIP code</label>
+                                <input id="aboutCheckZip" name="zip" type="text" inputmode="numeric"
+                                    autocomplete="postal-code" placeholder="ZIP" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="aboutCheckType">Project type</label>
+                                <select id="aboutCheckType" name="project-type" required>
+                                    <option value="">Choose</option>
+                                    <option value="installation">Installation</option>
+                                    <option value="replacement">Replacement</option>
+                                    <option value="repair">Repair</option>
+                                    <option value="energy">Energy-efficient windows</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-field">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="consent" required>
+                                <span class="custom-checkbox-box" aria-hidden="true"></span>
+                                <span>
+                                    I understand <span data-company-name></span> connects homeowners with independent
+                                    providers and does not perform window work directly.
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="button button-primary" type="submit">
+                                Check Provider Path
+                            </button>
+
+                            <p class="form-status" data-form-status aria-live="polite"></p>
+                        </div>
+                    </form>
+                </aside>
+            </div>
+
+            <div class="about-hero-bottom">
+                <div class="container-wide about-hero-bottom-grid">
+                    <div>
+                        <strong>Not a contractor</strong>
+                        <span data-company-name></span>
+                        <small>does not install, repair, replace, or inspect windows directly.</small>
+                    </div>
+
+                    <div>
+                        <strong>Independent providers</strong>
+                        <span>Local companies</span>
+                        <small>are separate businesses and should be reviewed directly.</small>
+                    </div>
+
+                    <div>
+                        <strong>Clearer comparison</strong>
+                        <span>Project details</span>
+                        <small>are organized around category, ZIP code, and provider-fit factors.</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-story section-gray section" aria-labelledby="aboutStoryTitle">
+            <div class="container-wide about-story-layout">
+                <div class="about-story-photo">
+                    <img src="./assets/images/split-window-frame.jpg"
+                        alt="Modern window frame detail in a bright interior" loading="lazy">
+                </div>
+
+                <div class="about-story-content">
+                    <span class="eyebrow">Why Skylin exists</span>
+
+                    <h2 id="aboutStoryTitle">
+                        Window projects need clearer comparison, not louder contractor claims.
+                    </h2>
+
+                    <p>
+                        Window projects can become confusing quickly: different materials, glass packages, frame types,
+                        quote scopes, timelines, warranty terms, and provider availability all affect the final
+                        decision.
+                    </p>
+
+                    <p>
+                        <span data-company-name></span> was created as a provider-matching platform to help homeowners
+                        organize requests and compare independent window provider options without presenting itself as a
+                        direct window company.
+                    </p>
+
+                    <div class="about-story-points">
+                        <article>
+                            <span>01</span>
+                            <strong>Organized request details</strong>
+                            <p>Project category, ZIP code, timing, and basic window needs are easier to review.</p>
+                        </article>
+
+                        <article>
+                            <span>02</span>
+                            <strong>Provider comparison focus</strong>
+                            <p>Homeowners compare options and choose who to contact or hire.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-role section-dark section" aria-labelledby="aboutRoleTitle">
+            <div class="container-wide">
+                <div class="about-role-header">
+                    <span class="eyebrow">Platform role</span>
+
+                    <h2 id="aboutRoleTitle">
+                        What <span data-company-name></span> does — and does not do.
+                    </h2>
+
+                    <p>
+                        The distinction matters. <span data-company-name></span> is designed for provider matching and
+                        request organization, not direct window service work.
+                    </p>
+                </div>
+
+                <div class="about-role-grid">
+                    <article class="about-role-card about-role-card-positive">
+                        <span class="about-role-label">Skylin does</span>
+
+                        <ul>
+                            <li>Help homeowners compare local window provider options.</li>
+                            <li>Organize project requests by category and ZIP code.</li>
+                            <li>Connect users with independent window companies.</li>
+                            <li>Encourage direct verification of licensing, insurance, quotes, timelines, and warranty
+                                terms.</li>
+                        </ul>
+                    </article>
+
+                    <article class="about-role-card about-role-card-negative">
+                        <span class="about-role-label">Skylin does not</span>
+
+                        <ul>
+                            <li>Install windows directly.</li>
+                            <li>Replace windows directly.</li>
+                            <li>Repair or inspect windows directly.</li>
+                            <li>Employ window technicians, installers, or crews.</li>
+                            <li>Guarantee provider work, availability, pricing, or timelines.</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-process section-gray-strong section" id="how-skylin-works"
+            aria-labelledby="aboutProcessTitle">
+            <div class="container-wide">
+                <div class="section-header center">
+                    <span class="eyebrow">How requests are organized</span>
+
+                    <h2 id="aboutProcessTitle">
+                        A simple path from project details to provider comparison.
+                    </h2>
+
+                    <p>
+                        The goal is to help homeowners create a clearer request before speaking with independent
+                        providers.
+                    </p>
+                </div>
+
+                <div class="process-line-grid" data-about-process></div>
+            </div>
+        </section>
+
+        <section class="about-lens section-blue section" aria-labelledby="aboutLensTitle">
+            <div class="container-wide about-lens-layout">
+                <div class="about-lens-content">
+                    <span class="eyebrow">Comparison lens</span>
+
+                    <h2 id="aboutLensTitle">
+                        Compare providers through practical details.
+                    </h2>
+
+                    <p>
+                        Instead of choosing based only on the first response, homeowners can compare several
+                        provider-fit factors before making a decision.
+                    </p>
+
+                    <a class="button button-light" href="services.html">
+                        View Window Categories
+                    </a>
+                </div>
+
+                <div class="about-lens-board" data-about-lens></div>
+            </div>
+        </section>
+
+        <section class="about-verification section-gray section" aria-labelledby="aboutVerificationTitle">
+            <div class="container-wide about-verification-layout">
+                <div class="about-verification-copy">
+                    <span class="eyebrow">Homeowner verification</span>
+
+                    <h2 id="aboutVerificationTitle">
+                        Always verify details directly before hiring.
+                    </h2>
+
+                    <p>
+                        Providers are independent. Before selecting any provider, homeowners should review the details
+                        that matter for their specific window project.
+                    </p>
+
+                    <ul class="about-verification-list">
+                        <li>Licensing and insurance requirements</li>
+                        <li>Quote scope, exclusions, and payment terms</li>
+                        <li>Window materials, glass packages, and product documentation</li>
+                        <li>Timeline, access needs, cleanup, and warranty terms</li>
+                    </ul>
+                </div>
+
+                <div class="about-verification-card">
+                    <span>Platform notice</span>
+
+                    <p data-legal-notice></p>
+
+                    <a class="button button-dark" href="contact.html">
+                        Contact <span data-company-name></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-cta section-compact" aria-labelledby="aboutCtaTitle">
+            <div class="container-wide about-cta-shell">
+                <div class="about-cta-content">
+                    <span class="eyebrow">Ready to compare?</span>
+
+                    <h2 id="aboutCtaTitle">
+                        Start with the window category that fits your project.
+                    </h2>
+
+                    <p>
+                        Compare independent provider options for installation, replacement, repair, and energy-efficient
+                        window projects.
+                    </p>
+                </div>
+
+                <div class="about-cta-actions">
+                    <a class="button button-primary" href="contact.html">
+                        Request Provider Options
+                    </a>
+
+                    <a class="button button-secondary" href="services.html">
+                        Explore Services
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-faq section-gray section" id="faq" aria-labelledby="aboutFaqTitle">
+            <div class="container-wide about-faq-layout">
+                <div class="section-header">
+                    <span class="eyebrow">FAQ</span>
+
+                    <h2 id="aboutFaqTitle">
+                        Questions about <span data-company-name></span>
+                    </h2>
+
+                    <p>
+                        A few clear answers about how the platform works and what homeowners should verify.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="faq-list" data-faq-list="about"></div>
+                    <div data-faq-schema="about"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-site-footer></div>
+    <div data-policy-banner></div>
+
+    <script src="./js/config.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/about.js"></script>
+</body>
+
+</html>

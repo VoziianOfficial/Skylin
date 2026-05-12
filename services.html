@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Window Provider Options | Skylin</title>
+    <meta name="description"
+        content="Explore window installation, replacement, repair, and energy-efficient window provider options through Skylin.">
+
+    <link rel="icon" type="image/svg+xml" href="./assets/icons/favicon.svg">
+    <link rel="shortcut icon" href="./assets/icons/favicon.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body class="services-page">
+    <div data-site-header></div>
+
+    <main id="main">
+        <section class="services-hero" aria-labelledby="servicesHeroTitle">
+            <div class="services-hero-bg" aria-hidden="true">
+                <img src="./assets/images/hero-services.jpg" alt="">
+            </div>
+
+            <div class="container-wide services-hero-grid">
+                <div class="services-hero-content">
+                    <span class="eyebrow">Window provider options</span>
+
+                    <h1 id="servicesHeroTitle">
+                        Compare window service categories.
+                    </h1>
+
+                    <p>
+                        Explore installation, replacement, repair, and energy-focused window provider options through
+                        <span data-company-name></span>.
+                    </p>
+
+                    <div class="services-hero-actions">
+                        <a class="button button-primary" href="contact.html">
+                            Request Provider Options
+                        </a>
+
+                        <a class="button button-secondary" href="#window-categories">
+                            View Categories
+                        </a>
+                    </div>
+                </div>
+
+                <aside class="services-hero-request" aria-label="Quick provider request">
+                    <div class="services-request-frame" aria-hidden="true"></div>
+
+                    <div class="services-request-card">
+                        <span class="services-request-kicker">Quick match request</span>
+
+                        <h2>
+                            Start with the right window category.
+                        </h2>
+
+                        <p>
+                            Share a ZIP code and service type. <span data-company-name></span> helps organize your
+                            request for independent provider comparison.
+                        </p>
+
+                        <form class="services-hero-form" data-skylin-form>
+                            <div class="form-field">
+                                <label for="servicesHeroZip">ZIP code</label>
+                                <input id="servicesHeroZip" name="zip" type="text" inputmode="numeric"
+                                    autocomplete="postal-code" placeholder="Example: 80202" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="servicesHeroCategory">Window category</label>
+                                <select id="servicesHeroCategory" name="service" data-service-select required>
+                                    <option value="">Select a category</option>
+                                </select>
+                            </div>
+
+                            <div class="checkbox-field">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="consent" required>
+                                    <span class="custom-checkbox-box" aria-hidden="true"></span>
+                                    <span>
+                                        I understand <span data-company-name></span> is a provider-matching platform,
+                                        not a direct window contractor.
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="button button-primary" type="submit">
+                                    Compare Options
+                                </button>
+
+                                <p class="form-status" data-form-status aria-live="polite"></p>
+                            </div>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="services-hero-strip" aria-label="Platform reminders">
+                <div class="container-wide services-hero-strip-grid">
+                    <div>
+                        <strong>Independent providers</strong>
+                        <span>Providers are not owned or managed by <span data-company-name></span>.</span>
+                    </div>
+
+                    <div>
+                        <strong>Homeowner verification</strong>
+                        <span>Verify licensing, insurance, quotes, timelines, and warranty terms directly.</span>
+                    </div>
+
+                    <div>
+                        <strong>Area availability</strong>
+                        <span>Provider availability may vary by ZIP code and window category.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-overview section-blue section" id="window-categories"
+            aria-labelledby="servicesOverviewTitle">
+            <div class="container-wide">
+                <div class="section-header center text-light">
+                    <span class="eyebrow">Four window categories</span>
+
+                    <h2 id="servicesOverviewTitle">
+                        Choose the service path that fits your project.
+                    </h2>
+
+                    <p>
+                        Each category is designed to help homeowners compare independent local window provider options
+                        without direct-contractor claims.
+                    </p>
+                </div>
+
+                <div class="services-editorial-grid" data-service-cards="editorial"></div>
+            </div>
+        </section>
+
+        <section class="services-lens section-gray section" id="provider-comparison"
+            aria-labelledby="servicesLensTitle">
+            <div class="container-wide services-lens-layout">
+                <div class="services-lens-intro">
+                    <span class="eyebrow">Provider comparison lens</span>
+
+                    <h2 id="servicesLensTitle">
+                        Compare more than just a quote.
+                    </h2>
+
+                    <p>
+                        Window projects can vary by materials, glass packages, existing conditions, access, timelines,
+                        and provider availability. Use this section as a practical comparison lens before making a
+                        decision.
+                    </p>
+
+                    <a class="button button-dark" href="contact.html">
+                        Request Provider Options
+                    </a>
+                </div>
+
+                <div class="comparison-grid" data-services-comparison></div>
+            </div>
+        </section>
+
+        <section class="services-dark-panel section-dark section-compact" aria-labelledby="servicesStatsTitle">
+            <div class="container-wide services-dark-layout">
+                <div class="services-dark-copy">
+                    <span class="eyebrow">Matching signals</span>
+
+                    <h2 id="servicesStatsTitle">
+                        Organized requests help comparison feel clearer.
+                    </h2>
+
+                    <p>
+                        <span data-company-name></span> focuses on request structure, category fit, service-area
+                        routing, and provider comparison clarity.
+                    </p>
+                </div>
+
+                <div class="stats-strip" data-services-stats></div>
+            </div>
+        </section>
+
+        <section class="services-prepare section-gray-strong section" aria-labelledby="servicesPrepareTitle">
+            <div class="container-wide services-prepare-layout">
+                <div class="services-prepare-photo">
+                    <img src="./assets/images/provider-comparison.jpg"
+                        alt="Window frame and glass detail for provider comparison preparation" loading="lazy">
+                </div>
+
+                <div class="services-prepare-content">
+                    <span class="eyebrow">Before requesting options</span>
+
+                    <h2 id="servicesPrepareTitle">
+                        Prepare a cleaner request.
+                    </h2>
+
+                    <p>
+                        A more complete request can make it easier to compare independent providers. You do not need
+                        every answer upfront, but these details are helpful.
+                    </p>
+
+                    <div class="services-prepare-list">
+                        <article>
+                            <span>01</span>
+                            <strong>Window count</strong>
+                            <p>Know the approximate number of windows involved.</p>
+                        </article>
+
+                        <article>
+                            <span>02</span>
+                            <strong>Project type</strong>
+                            <p>Installation, replacement, repair, or energy-focused upgrade.</p>
+                        </article>
+
+                        <article>
+                            <span>03</span>
+                            <strong>Photos or notes</strong>
+                            <p>Photos can help clarify visible damage, access, or existing conditions.</p>
+                        </article>
+
+                        <article>
+                            <span>04</span>
+                            <strong>Questions to verify</strong>
+                            <p>Ask providers about licensing, insurance, quote scope, timelines, and warranty terms.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-map-cta section-compact" aria-labelledby="servicesMapTitle">
+            <div class="container-wide services-map-layout">
+                <div class="services-map-copy">
+                    <span class="eyebrow">USA service area context</span>
+
+                    <h2 id="servicesMapTitle">
+                        Window provider availability varies by area.
+                    </h2>
+
+                    <p>
+                        <span data-company-name></span> helps homeowners compare window provider options across the
+                        <span data-service-area></span>, with availability depending on ZIP code and service category.
+                    </p>
+
+                    <div class="services-contact-line">
+                        <a href="#" data-phone-link>
+                            <span data-phone-text></span>
+                        </a>
+
+                        <a href="#" data-email-link>
+                            <span data-email-text></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <div class="map-card-content">
+                        <h3 data-company-name></h3>
+                        <p data-address-text></p>
+                        <p>Provider availability varies by area and project category.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-faq section-gray section" id="faq" aria-labelledby="servicesFaqTitle">
+            <div class="container-wide services-faq-layout">
+                <div class="section-header">
+                    <span class="eyebrow">FAQ</span>
+
+                    <h2 id="servicesFaqTitle">
+                        Questions about comparing window providers
+                    </h2>
+
+                    <p>
+                        Clear answers about the platform role, provider independence, and what homeowners should verify.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="faq-list" data-faq-list="general"></div>
+                    <div data-faq-schema="general"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-site-footer></div>
+    <div data-policy-banner></div>
+
+    <script src="./js/config.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/services.js"></script>
+</body>
+
+</html>
