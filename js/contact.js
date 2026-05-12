@@ -1,11 +1,6 @@
 "use strict";
 
-/* ==========================================================
-   Skylin — Contact Page Script
-   Renders:
-   - contact info cards
-   - contact form steps
-   ========================================================== */
+
 
 (function () {
     const config = window.SITE_CONFIG;
@@ -22,9 +17,7 @@
         renderContactSteps();
     }
 
-    /* ========================================================
-       Contact Cards
-       ======================================================== */
+
 
     function renderContactCards() {
         const mount = document.querySelector("[data-contact-cards]");
@@ -83,9 +76,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Contact Form Steps
-       ======================================================== */
+
 
     function renderContactSteps() {
         const mount = document.querySelector("[data-contact-steps]");
@@ -125,9 +116,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Icons
-       ======================================================== */
+    
 
     function icon(name) {
         const icons = {
@@ -159,9 +148,7 @@
         return icons[name] || icons.area;
     }
 
-    /* ========================================================
-       Helpers
-       ======================================================== */
+
 
     function escapeHtml(value) {
         return String(value ?? "")

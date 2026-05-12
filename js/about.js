@@ -1,11 +1,6 @@
 "use strict";
 
-/* ==========================================================
-   Skylin — About / Platform Page Script
-   Renders:
-   - process rail
-   - provider checklist strip
-   ========================================================== */
+
 
 (function () {
     const config = window.SITE_CONFIG;
@@ -22,9 +17,7 @@
         renderAboutChecklist();
     }
 
-    /* ========================================================
-       Process Rail
-       ======================================================== */
+ 
 
     function renderAboutProcess() {
         const mount = document.querySelector("[data-about-process]");
@@ -48,9 +41,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Provider Checklist
-       ======================================================== */
+  
 
     function renderAboutChecklist() {
         const mount = document.querySelector("[data-about-checklist]");
@@ -73,9 +64,6 @@
             .join("");
     }
 
-    /* ========================================================
-       Icons
-       ======================================================== */
 
     function processIcon(type) {
         const icons = {
@@ -152,9 +140,6 @@
         return icons[type] || icons.shield;
     }
 
-    /* ========================================================
-       Helpers
-       ======================================================== */
 
     function escapeHtml(value) {
         return String(value ?? "")

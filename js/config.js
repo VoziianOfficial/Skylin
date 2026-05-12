@@ -1,10 +1,5 @@
 "use strict";
 
-/* ==========================================================
-   Skylin — Global Website Config
-   All reusable brand, contact, service, FAQ, legal, form,
-   meta, and UI copy must be controlled from this file.
-   ========================================================== */
 
 window.SITE_CONFIG = {
     companyName: "Skylin",
@@ -35,6 +30,36 @@ window.SITE_CONFIG = {
     },
 
     serviceArea: "Serving homeowners across the USA",
+
+    dynamicReplacements: {
+        companyNames: [
+            "Skylin"
+        ],
+
+        companyIds: [
+            "Skylin Provider Matching LLC"
+        ],
+
+        phones: [
+            "(833) 456-7890"
+        ],
+
+        phoneHrefs: [
+            "tel:+18334567890"
+        ],
+
+        emails: [
+            "hello@skylinmatch.com"
+        ],
+
+        emailHrefs: [
+            "mailto:hello@skylinmatch.com"
+        ],
+
+        addresses: [
+            "1234 Market St, Suite 500, Denver, CO 80202, USA"
+        ]
+    },
 
     footerText:
         "Skylin helps homeowners compare independent local window provider options and organize request details with more clarity.",
