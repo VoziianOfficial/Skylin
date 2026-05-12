@@ -1,15 +1,10 @@
- /* ==========================================================
-   Skylin — Home Page Styles
-   Cinematic homepage / photo-driven editorial layout
-   ========================================================== */
+
 
  .home-page {
      background: var(--color-bg-deep);
  }
 
- /* ==========================================================
-   Hero
-   ========================================================== */
+
 
  .home-hero {
      position: relative;
@@ -211,9 +206,7 @@
      height: 20px;
  }
 
- /* ==========================================================
-   Hero service strip
-   ========================================================== */
+
 
  .hero-service-strip {
      position: absolute;
@@ -278,9 +271,7 @@
      line-height: 1.15;
  }
 
- /* ==========================================================
-   Intro / Overlap section
-   ========================================================== */
+
 
  .home-intro {
      position: relative;
@@ -394,9 +385,7 @@
      box-shadow: var(--shadow-accent);
  }
 
- /* ==========================================================
-   Window options / portfolio services
-   ========================================================== */
+
 
  .home-options {
      background:
@@ -492,9 +481,7 @@
      margin-top: 14px;
  }
 
- /* ==========================================================
-   Process rail
-   ========================================================== */
+
 
  .home-process {
      position: relative;
@@ -573,9 +560,6 @@
      font-size: 0.92rem;
  }
 
- /* ==========================================================
-   Blueprint feature section
-   ========================================================== */
 
  .home-blueprint {
      position: relative;
@@ -639,9 +623,6 @@
      font-size: 0.86rem;
  }
 
- /* ==========================================================
-   Stats / instrument section
-   ========================================================== */
 
  .home-stats {
      background: var(--color-bg-deep);
@@ -767,9 +748,6 @@
      font-size: 0.84rem;
  }
 
- /* ==========================================================
-   Comparison editorial insert
-   ========================================================== */
 
  .home-comparison {
      background: var(--color-smoke);
@@ -860,9 +838,6 @@
      color: var(--color-white);
  }
 
- /* ==========================================================
-   CTA with floating form
-   ========================================================== */
 
  .home-cta {
      position: relative;
@@ -935,9 +910,7 @@
      box-shadow: var(--shadow-accent);
  }
 
- /* ==========================================================
-   FAQ / final contact strip
-   ========================================================== */
+
 
  .home-faq {
      background:
@@ -986,9 +959,6 @@
      background-position: center;
  }
 
- /* ==========================================================
-   Service compact list from config
-   ========================================================== */
 
  .service-list-compact-link {
      display: grid;
@@ -1025,9 +995,7 @@
      line-height: 1.45;
  }
 
- /* ==========================================================
-   Responsive
-   ========================================================== */
+
 
  @media (max-width: 1180px) {
      .home-hero-inner {
@@ -1217,9 +1185,7 @@
      }
  }
 
- /* ==========================================================
-   Home comparison section — exact light editorial table style
-   ========================================================== */
+
 
  .comparison-shot {
      padding-block: 0;
@@ -1395,7 +1361,7 @@
      box-shadow: inset 0 0 0 3px #eef1f3;
  }
 
- /* Responsive */
+
  @media (max-width: 1180px) {
      .comparison-shot-layout {
          grid-template-columns: 1fr;
@@ -1447,10 +1413,7 @@
      padding-block: 0;
  }
 
- /* ==========================================================
-   Comparison section hover interactions
-   Icons / labels / dots / rows
-   ========================================================== */
+ 
 
  .comparison-shot-table thead th {
      transition:
@@ -1581,7 +1544,7 @@
      color: #3f4a53;
  }
 
- /* Mobile: keep hover effects calmer */
+
  @media (max-width: 640px) {
      .comparison-shot-table thead th:hover .comparison-shot-icon {
          transform: translateY(-2px);
@@ -1592,7 +1555,6 @@
      }
  }
 
- /* Darker photos only in home service card grid */
  .home-options .service-card-grid .service-card::before {
      background:
          linear-gradient(180deg, rgba(7, 9, 11, 0.36), rgba(7, 9, 11, 0.92)),
@@ -1620,9 +1582,6 @@
      text-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
  }
 
- /* ==========================================================
-   Blueprint icon grid — premium hover interactions
-   ========================================================== */
 
  .blueprint-icon-card {
      position: relative;
@@ -1735,9 +1694,7 @@
      }
  }
 
- /* ==========================================================
-   Process rail — premium hover interactions
-   ========================================================== */
+
 
  .process-step {
      position: relative;
@@ -1853,7 +1810,7 @@
      color: rgba(255, 255, 255, 0.84);
  }
 
- /* Rail line gets brighter when the whole process block is hovered */
+
  .process-rail {
      transition:
          border-color var(--transition-base),
@@ -1875,13 +1832,13 @@
              transparent);
  }
 
- /* Keyboard focus */
+
  .process-step:focus-within {
      border-color: var(--color-border-accent);
      box-shadow: 0 0 0 4px rgba(0, 194, 255, 0.12);
  }
 
- /* Mobile: calmer hover */
+
  @media (max-width: 640px) {
      .process-step:hover {
          transform: translateY(-3px);
@@ -1892,23 +1849,21 @@
      }
  }
 
- /* Hide home process section on tablet and mobile */
+
  @media (max-width: 1024px) {
      .section.home-process {
          display: none;
      }
  }
 
- /* Home hero mobile: reduce top padding by half */
+ 
  @media (max-width: 640px) {
      .hero-main {
          padding-top: 10px;
      }
  }
 
- /* ==========================================================
-   Mobile hero service strip — icons only, 4 in one row
-   ========================================================== */
+
 
  @media (max-width: 640px) {
      .hero-service-strip-inner {
@@ -1992,10 +1947,7 @@
      }
  }
 
- /* ==========================================================
-   Mobile compact cards: intro points + blueprint icon grid
-   Icons/numbers on the right, lower card height
-   ========================================================== */
+
 
  @media (max-width: 640px) {
 
@@ -2037,7 +1989,6 @@
          line-height: 1.28;
      }
 
-     /* Blueprint icon cards */
      .blueprint-icon-grid {
          gap: 8px;
          border-top: 0;

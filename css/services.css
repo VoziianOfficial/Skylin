@@ -1,15 +1,10 @@
- /* ==========================================================
-   Skylin — Services Page Styles
-   Portfolio mosaic / window-frame service category page
-   ========================================================== */
+
 
  .services-page {
      background: var(--color-bg-deep);
  }
 
- /* ==========================================================
-   Services Hero
-   ========================================================== */
+
 
  .services-hero {
      position: relative;
@@ -126,9 +121,7 @@
      box-shadow: var(--shadow-accent);
  }
 
- /* ==========================================================
-   Portfolio Mosaic
-   ========================================================== */
+
 
  .services-portfolio {
      background:
@@ -285,9 +278,7 @@
      font-size: 0.93rem;
  }
 
- /* ==========================================================
-   Window Frame Feature Grid
-   ========================================================== */
+
 
  .services-frame-section {
      position: relative;
@@ -403,9 +394,7 @@
      z-index: 3;
  }
 
- /* ==========================================================
-   Deep Teal Comparison Section
-   ========================================================== */
+
 
  .services-lens {
      position: relative;
@@ -496,9 +485,6 @@
      font-size: 0.88rem;
  }
 
- /* ==========================================================
-   Light Editorial Insert
-   ========================================================== */
 
  .services-editorial {
      background: var(--color-smoke);
@@ -595,9 +581,7 @@
      font-weight: 900;
  }
 
- /* ==========================================================
-   Services CTA
-   ========================================================== */
+
 
  .services-cta {
      position: relative;
@@ -666,9 +650,7 @@
      box-shadow: var(--shadow-accent);
  }
 
- /* ==========================================================
-   Responsive
-   ========================================================== */
+
 
  @media (max-width: 1180px) {
 
@@ -788,9 +770,7 @@
      }
  }
 
- /* ==========================================================
-   Services brief section — compact, useful, photo as real img
-   ========================================================== */
+
 
  .services-brief {
      padding-block: clamp(44px, 6vw, 82px);
@@ -1019,9 +999,6 @@
      }
  }
 
- /* ==========================================================
-   Editorial checklist — hover for each item
-   ========================================================== */
 
  .editorial-checklist li {
      position: relative;
@@ -1062,7 +1039,7 @@
      color: var(--color-text-dark);
  }
 
- /* Mobile: hover calmer */
+
  @media (max-width: 640px) {
      .editorial-checklist li {
          padding-block: 9px;
@@ -1073,9 +1050,7 @@
      }
  }
 
- /* ==========================================================
-   Tablet services frame section — square cards, 2 per row
-   ========================================================== */
+
 
  @media (min-width: 641px) and (max-width: 1180px) {
      .services-frame-section .window-frame-grid {
@@ -1107,7 +1082,6 @@
      }
  }
 
- /* Tablet services frame section — small gap between square cards */
  @media (min-width: 641px) and (max-width: 1180px) {
      .services-frame-section .window-frame-grid {
          gap: 12px;
@@ -1122,10 +1096,7 @@
      }
  }
 
- /* ==========================================================
-   Mobile services frame section — cleaner spacing, equal cards,
-   darker photo overlay, balanced content
-   ========================================================== */
+ 
 
  @media (max-width: 640px) {
      .services-frame-section .window-frame-grid {
@@ -1221,10 +1192,7 @@
      }
  }
 
- /* ==========================================================
-   Tablet + mobile services lens cards
-   Compact height, icon on the right
-   ========================================================== */
+
 
  @media (max-width: 1180px) {
      .services-lens-grid {

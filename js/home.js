@@ -1,14 +1,6 @@
 "use strict";
 
-/* ==========================================================
-   Skylin — Home Page Script
-   Renders homepage-only dynamic sections:
-   - hero service strip
-   - process rail
-   - blueprint icon section
-   - stats panel
-   - comparison table
-   ========================================================== */
+
 
 (function () {
     const config = window.SITE_CONFIG;
@@ -28,9 +20,7 @@
         renderHomeComparison();
     }
 
-    /* ========================================================
-       Hero Service Strip
-       ======================================================== */
+
 
     function renderHeroServiceStrip() {
         const mount = document.querySelector("[data-hero-services]");
@@ -48,9 +38,6 @@
             .join("");
     }
 
-    /* ========================================================
-       Process Rail
-       ======================================================== */
 
     function renderHomeProcess() {
         const mount = document.querySelector("[data-home-process]");
@@ -74,9 +61,6 @@
             .join("");
     }
 
-    /* ========================================================
-       Blueprint / Verification Icons
-       ======================================================== */
 
     function renderBlueprintIcons() {
         const mount = document.querySelector("[data-blueprint-icons]");
@@ -99,9 +83,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Stats
-       ======================================================== */
+
 
     function renderHomeStats() {
         const mount = document.querySelector("[data-home-stats]");
@@ -134,9 +116,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Provider Comparison Table
-       ======================================================== */
+
 
     function renderHomeComparison() {
         const mount = document.querySelector("[data-home-comparison]");
@@ -183,9 +163,7 @@
     `;
     }
 
-    /* ========================================================
-       Icons
-       ======================================================== */
+ 
 
     function serviceIcon(type) {
         const icons = {
@@ -333,9 +311,7 @@
     `;
     }
 
-    /* ========================================================
-       Helpers
-       ======================================================== */
+
 
     function escapeHtml(value) {
         return String(value ?? "")

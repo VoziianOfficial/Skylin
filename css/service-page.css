@@ -1,19 +1,9 @@
-/* ==========================================================
-   Skylin — Individual Service Page Styles
-   Shared styles for:
-   - window-installation.html
-   - window-replacement.html
-   - window-repair.html
-   - energy-efficient-windows.html
-   ========================================================== */
+
 
 .service-detail-page {
     background: var(--color-bg-deep);
 }
 
-/* ==========================================================
-   Service Hero
-   ========================================================== */
 
 .service-detail-hero {
     position: relative;
@@ -131,9 +121,7 @@
     box-shadow: var(--shadow-accent);
 }
 
-/* ==========================================================
-   Service Intro / Photo Overlap
-   ========================================================== */
+
 
 .service-detail-intro {
     position: relative;
@@ -251,9 +239,7 @@
     box-shadow: var(--shadow-accent);
 }
 
-/* ==========================================================
-   Evaluation / Deep Teal Section
-   ========================================================== */
+
 
 .service-detail-evaluation {
     position: relative;
@@ -345,9 +331,7 @@
     font-size: 0.88rem;
 }
 
-/* ==========================================================
-   Light Editorial Insert
-   ========================================================== */
+
 
 .service-detail-editorial {
     background: var(--color-smoke);
@@ -445,9 +429,7 @@
     font-weight: 900;
 }
 
-/* ==========================================================
-   Related Services / Photo Cards
-   ========================================================== */
+
 
 .service-detail-related {
     background:
@@ -465,9 +447,6 @@
     min-height: 320px;
 }
 
-/* ==========================================================
-   CTA / Form Section
-   ========================================================== */
 
 .service-detail-cta {
     position: relative;
@@ -538,9 +517,7 @@
     box-shadow: var(--shadow-accent);
 }
 
-/* ==========================================================
-   Service FAQ
-   ========================================================== */
+
 
 .service-detail-faq {
     background:
@@ -548,9 +525,6 @@
         linear-gradient(180deg, var(--color-bg-graphite), var(--color-bg-deep));
 }
 
-/* ==========================================================
-   Responsive
-   ========================================================== */
 
 @media (max-width: 1180px) {
 
@@ -668,9 +642,7 @@
     }
 }
 
-/* ==========================================================
-   Tablet service intro — center copy block evenly
-   ========================================================== */
+
 
 @media (min-width: 641px) and (max-width: 1180px) {
     .service-detail-intro-layout {
@@ -704,10 +676,7 @@
     }
 }
 
-/* ==========================================================
-   Mobile service hero list alignment
-   Align text evenly next to square markers
-   ========================================================== */
+
 
 @media (max-width: 640px) {
     .service-detail-hero-list {

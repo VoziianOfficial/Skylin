@@ -1,15 +1,8 @@
-/* ==========================================================
-   Skylin — Contact Page Styles
-   Dark photo hero / map split / compact premium form
-   ========================================================== */
+
 
 .contact-page {
     background: var(--color-bg-deep);
 }
-
-/* ==========================================================
-   Contact Hero
-   ========================================================== */
 
 .contact-hero {
     position: relative;
@@ -109,9 +102,7 @@
     gap: 13px;
 }
 
-/* ==========================================================
-   Map / Contact Split
-   ========================================================== */
+
 
 .contact-map-section {
     position: relative;
@@ -306,9 +297,7 @@
     font-size: 0.84rem;
 }
 
-/* ==========================================================
-   Floating Form Section
-   ========================================================== */
+
 
 .contact-form-section {
     position: relative;
@@ -400,9 +389,7 @@
     line-height: 1.45;
 }
 
-/* ==========================================================
-   Contact FAQ
-   ========================================================== */
+
 
 .contact-faq {
     position: relative;
@@ -468,9 +455,6 @@
     margin-top: 6px;
 }
 
-/* ==========================================================
-   Contact Legal Strip
-   ========================================================== */
 
 .contact-legal-strip {
     background: var(--color-smoke);
@@ -514,9 +498,7 @@
     font-size: 0.9rem;
 }
 
-/* ==========================================================
-   Responsive
-   ========================================================== */
+
 
 @media (max-width: 1180px) {
 
@@ -607,10 +589,7 @@
     }
 }
 
-/* ==========================================================
-   Contact legal flat version
-   Flat photo on top, card below
-   ========================================================== */
+
 
 .contact-legal-flat {
     padding-block: clamp(38px, 5vw, 74px);
@@ -640,7 +619,7 @@
     font-size: 0.94rem;
 }
 
-/* Right column */
+
 .contact-legal-stack-flat {
     display: grid;
     grid-template-columns: 1fr !important;
@@ -648,7 +627,7 @@
     width: 100%;
 }
 
-/* Flat photo */
+
 .contact-legal-flat-photo {
     position: relative;
     height: 170px;
@@ -689,7 +668,7 @@
         filter var(--transition-base);
 }
 
-/* Card below photo */
+
 .contact-legal-panel-flat {
     position: relative;
     display: grid;
@@ -736,7 +715,7 @@
     line-height: 1.55;
 }
 
-/* Hovers */
+
 .contact-legal-flat-photo:hover {
     transform: translateY(-4px);
     border-color: rgba(0, 157, 255, 0.4);
@@ -771,7 +750,7 @@
     box-shadow: 0 0 18px rgba(0, 157, 255, 0.24);
 }
 
-/* Tablet */
+
 @media (max-width: 1180px) {
     .contact-legal-flat .contact-legal-layout {
         grid-template-columns: 1fr;
@@ -786,7 +765,7 @@
     }
 }
 
-/* Mobile */
+
 @media (max-width: 760px) {
     .contact-legal-flat {
         padding-block: 34px;
@@ -813,9 +792,7 @@
     }
 }
 
-/* ==========================================================
-   Contact info grid — perfectly centered icons
-   ========================================================== */
+
 
 .contact-info-grid .contact-info-card {
     grid-template-columns: 48px minmax(0, 1fr);
@@ -845,7 +822,7 @@
     min-width: 0;
 }
 
-/* Mobile */
+
 @media (max-width: 640px) {
     .contact-info-grid .contact-info-card {
         grid-template-columns: 44px minmax(0, 1fr);

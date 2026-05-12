@@ -1,16 +1,6 @@
 "use strict";
 
-/* ==========================================================
-   Skylin — Individual Service Page Script
-   Reads body[data-service-id] and renders service-specific:
-   - hero content
-   - images
-   - intro copy
-   - evaluation points
-   - editorial checklist
-   - related services
-   - CTA copy
-   ========================================================== */
+
 
 (function () {
     const config = window.SITE_CONFIG;
@@ -37,9 +27,6 @@
         renderRelatedServices(service);
     }
 
-    /* ========================================================
-       Current Service
-       ======================================================== */
 
     function getCurrentService() {
         const bodyServiceId = document.body.getAttribute("data-service-id");
@@ -58,9 +45,6 @@
         return String(value || "").split("#")[0].split("?")[0].split("/").pop();
     }
 
-    /* ========================================================
-       Images
-       ======================================================== */
 
     function applyServiceImages(service) {
         const hero = document.querySelector("[data-service-hero]");
@@ -80,9 +64,7 @@
         }
     }
 
-    /* ========================================================
-       Text Injection
-       ======================================================== */
+
 
     function injectServiceContent(service) {
         setText("[data-service-title]", service.title);
@@ -107,9 +89,7 @@
         });
     }
 
-    /* ========================================================
-       Evaluation Points
-       ======================================================== */
+
 
     function renderEvaluationPoints(service) {
         const mount = document.querySelector("[data-service-evaluation]");
@@ -169,9 +149,7 @@
         return selected[index] || fallback[index] || fallback[0];
     }
 
-    /* ========================================================
-       Editorial Checklist
-       ======================================================== */
+
 
     function renderEditorialChecklist(service) {
         const mount = document.querySelector("[data-service-editorial-checklist]");
@@ -191,9 +169,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Related Services
-       ======================================================== */
+
 
     function renderRelatedServices(service) {
         const mount = document.querySelector("[data-related-services]");
@@ -222,9 +198,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Icons
-       ======================================================== */
+
 
     function serviceIcon(type) {
         const icons = {
@@ -258,9 +232,7 @@
         return icons[type] || icons.window;
     }
 
-    /* ========================================================
-       Helpers
-       ======================================================== */
+
 
     function escapeHtml(value) {
         return String(value ?? "")

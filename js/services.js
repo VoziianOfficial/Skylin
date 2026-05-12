@@ -1,12 +1,6 @@
 "use strict";
 
-/* ==========================================================
-   Skylin — Services Page Script
-   Renders services page dynamic sections:
-   - portfolio mosaic
-   - window-frame feature grid
-   - comparison lens cards
-   ========================================================== */
+
 
 (function () {
     const config = window.SITE_CONFIG;
@@ -24,9 +18,7 @@
         renderServicesLens();
     }
 
-    /* ========================================================
-       Portfolio Mosaic
-       ======================================================== */
+
 
     function renderServicesMosaic() {
         const mount = document.querySelector("[data-services-mosaic]");
@@ -53,9 +45,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Window Frame Grid
-       ======================================================== */
+  
 
     function renderWindowFrameGrid() {
         const mount = document.querySelector("[data-window-frame-grid]");
@@ -84,9 +74,7 @@
             .join("");
     }
 
-    /* ========================================================
-       Comparison Lens
-       ======================================================== */
+
 
     function renderServicesLens() {
         const mount = document.querySelector("[data-services-lens]");
@@ -106,9 +94,6 @@
             .join("");
     }
 
-    /* ========================================================
-       Icons
-       ======================================================== */
 
     function serviceIcon(type) {
         const icons = {
@@ -184,9 +169,7 @@
         return icons[type] || icons.shield;
     }
 
-    /* ========================================================
-       Helpers
-       ======================================================== */
+   
 
     function escapeHtml(value) {
         return String(value ?? "")

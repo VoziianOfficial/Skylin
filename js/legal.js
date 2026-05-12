@@ -1,10 +1,6 @@
 "use strict";
 
-/* ==========================================================
-   Skylin — Legal Pages Script
-   Renders legal sidebar/contact/CTA helpers and marks
-   current legal page active.
-   ========================================================== */
+
 
 (function () {
     const config = window.SITE_CONFIG;
@@ -25,9 +21,7 @@
         injectLegalMetaLabels();
     }
 
-    /* ========================================================
-       Sidebar Legal Links
-       ======================================================== */
+
 
     function renderLegalSidebarLinks() {
         document.querySelectorAll("[data-legal-sidebar-links]").forEach((mount) => {
@@ -56,9 +50,6 @@
         });
     }
 
-    /* ========================================================
-       Contact Block
-       ======================================================== */
 
     function renderLegalContact() {
         document.querySelectorAll("[data-legal-contact]").forEach((mount) => {
@@ -88,9 +79,7 @@
         });
     }
 
-    /* ========================================================
-       Legal CTA Links
-       ======================================================== */
+
 
     function renderLegalCtaLinks() {
         document.querySelectorAll("[data-legal-cta-links]").forEach((mount) => {
@@ -106,9 +95,6 @@
         });
     }
 
-    /* ========================================================
-       Service List
-       ======================================================== */
 
     function renderLegalServiceList() {
         document.querySelectorAll("[data-legal-service-list]").forEach((mount) => {
@@ -122,9 +108,7 @@
         });
     }
 
-    /* ========================================================
-       Small Legal Labels
-       ======================================================== */
+
 
     function injectLegalMetaLabels() {
         const currentYear = String(new Date().getFullYear());
@@ -144,9 +128,7 @@
         });
     }
 
-    /* ========================================================
-       Helpers
-       ======================================================== */
+    
 
     function getLegalLinks() {
         return Array.isArray(config.legalLinks)

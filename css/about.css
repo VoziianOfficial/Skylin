@@ -1,15 +1,10 @@
- /* ==========================================================
-   Skylin — About / Platform Page Styles
-   Cinematic platform story / compliance-safe aggregator model
-   ========================================================== */
+
 
  .about-page {
      background: var(--color-bg-deep);
  }
 
- /* ==========================================================
-   About Hero
-   ========================================================== */
+
 
  .about-hero {
      position: relative;
@@ -127,9 +122,7 @@
      box-shadow: var(--shadow-accent);
  }
 
- /* ==========================================================
-   Overlapping Story Collage
-   ========================================================== */
+
 
  .about-collage {
      position: relative;
@@ -247,9 +240,7 @@
      box-shadow: var(--shadow-accent);
  }
 
- /* ==========================================================
-   Does / Does Not Section
-   ========================================================== */
+
 
  .about-model {
      position: relative;
@@ -351,9 +342,7 @@
      content: "–";
  }
 
- /* ==========================================================
-   Large Number Story Section
-   ========================================================== */
+
 
  .about-story {
      background: var(--color-smoke);
@@ -470,9 +459,7 @@
      font-size: 0.86rem;
  }
 
- /* ==========================================================
-   About Process
-   ========================================================== */
+
 
  .about-process {
      position: relative;
@@ -485,9 +472,6 @@
      margin-top: clamp(28px, 4vw, 54px);
  }
 
- /* ==========================================================
-   Provider Checklist Strip
-   ========================================================== */
 
  .about-checklist {
      position: relative;
@@ -560,9 +544,7 @@
      font-size: 0.88rem;
  }
 
- /* ==========================================================
-   About CTA
-   ========================================================== */
+
 
  .about-cta {
      position: relative;
@@ -606,9 +588,7 @@
      max-width: 660px;
  }
 
- /* ==========================================================
-   Responsive
-   ========================================================== */
+
 
  @media (max-width: 1180px) {
 
@@ -722,10 +702,7 @@
      }
  }
 
- /* ==========================================================
-   About Quote Anatomy Section
-   Compact quote-review section with real photo, not service cards
-   ========================================================== */
+
 
  .about-quote-anatomy {
      position: relative;
@@ -958,10 +935,7 @@
      padding-block: clamp(40px, 5vw, 75px);
  }
 
- /* ==========================================================
-   About Request Path
-   Replaces old about-process rail with compact editorial route
-   ========================================================== */
+
 
  .about-request-path {
      position: relative;
@@ -1205,7 +1179,7 @@
      color: var(--color-text-muted);
  }
 
- /* Responsive */
+
 
  @media (max-width: 1180px) {
      .about-request-path-layout {
@@ -1293,10 +1267,7 @@
  }
 
 
- /* ==========================================================
-   About Provider Desk
-   Light contrast section replacing old about-checklist
-   ========================================================== */
+
 
  .about-provider-desk {
      position: relative;
@@ -1423,7 +1394,7 @@
      letter-spacing: -0.045em;
  }
 
- /* Scorecard */
+
 
  .about-provider-scorecard {
      position: relative;
@@ -1563,7 +1534,7 @@
      box-shadow: 0 0 14px rgba(0, 157, 255, 0.24);
  }
 
- /* Responsive */
+
 
  @media (max-width: 1180px) {
      .about-provider-desk-layout {
@@ -1624,10 +1595,7 @@
      }
  }
 
- /* ==========================================================
-   About Model Clean
-   Light compact photo section, no cards-inside-cards
-   ========================================================== */
+
 
  .section.about-model-clean {
      position: relative;
@@ -1679,7 +1647,7 @@
      align-items: center;
  }
 
- /* Left copy */
+
 
  .about-model-clean-copy {
      display: grid;
@@ -1710,7 +1678,6 @@
      line-height: 1.56;
  }
 
- /* Right board — no nested cards */
 
  .about-model-clean-board {
      display: grid;
@@ -1803,7 +1770,7 @@
      box-shadow: 0 0 18px rgba(0, 157, 255, 0.24);
  }
 
- /* Center divider */
+
 
  .about-model-clean-divider {
      position: relative;
@@ -1846,7 +1813,7 @@
      box-shadow: 0 18px 44px rgba(17, 20, 23, 0.08);
  }
 
- /* Responsive */
+
 
  @media (max-width: 1180px) {
      .about-model-clean-layout {
@@ -1939,7 +1906,7 @@
          transform: translateX(3px);
      }
  }
- /* Smaller center badge + hover */
+
  .about-model-clean-divider span {
      width: 68px;
      min-height: 68px;
